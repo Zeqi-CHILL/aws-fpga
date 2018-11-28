@@ -34,8 +34,8 @@ if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
 
 ###########REPLACE BY ZEQI########################################################
 ###########Design Files:ADDER#####################################################
-file copy -force $CL_DIR/design/adder.v			              $TARGET_DIR
-file copy -force $CL_DIR/design/addr_tb.v		              $TARGET_DIR
+file copy -force $CL_DIR/design/adder.v			                $TARGET_DIR
+file copy -force $CL_DIR/design/adder_tb.v		              $TARGET_DIR
 ###########REPLACE BY ZEQI########################################################
 
 #file copy -force $CL_DIR/design/cl_hello_world_defines.vh             $TARGET_DIR
