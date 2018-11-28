@@ -42,7 +42,11 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 # Reading the .sv and .v files, as proper designs would not require
 # reading .v, .vh, nor .inc files
 
-read_verilog -sv [glob $ENC_SRC_DIR/*.?v]
+#read_verilog -sv [glob $ENC_SRC_DIR/*.?v]
+###############COMMENTED BY ZEQI###################################
+############There is no file in src_post_encryption################
+############In every example design################################
+############Comment out here to see how it compiles################
 
 #---- End of section replaced by User ----
 
