@@ -1,0 +1,20 @@
+#-----------------------------------------------------------
+# Vivado v2018.2_AR71275_op (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Wed Nov 28 01:58:43 2018
+# Process ID: 2261
+# Current directory: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_hello_world/build/scripts
+# Command line: vivado -mode batch -nojournal -log 18_11_28-015841.vivado.log -source create_dcp_from_cl.tcl -tclargs 18_11_28-015841 DEFAULT 1.4.4 0x04261818 0xF000 0x1D0F 0x1D51 0xFEDD A0 B0 C0 2 1
+# Log file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_hello_world/build/scripts/18_11_28-015841.vivado.log
+# Journal file: 
+#-----------------------------------------------------------
+source create_dcp_from_cl.tcl
+# package require tar
+# set TOP top_sp
+# set CL_MODULE adder       	###
+wrong # args: should be "set varName ?newValue?"
+    while executing
+"set CL_MODULE adder       	###"
+    (file "create_dcp_from_cl.tcl" line 24)
+INFO: [Common 17-206] Exiting Vivado at Wed Nov 28 01:58:51 2018...
