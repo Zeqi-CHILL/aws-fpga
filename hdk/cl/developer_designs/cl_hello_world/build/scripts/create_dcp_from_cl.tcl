@@ -21,7 +21,7 @@ set TOP top_sp
 ## Replace with the name of your module
 #set CL_MODULE cl_hello_world
 ###########REPLACE BY ZEQI#########
-set CL_MODULE adder       	###
+set CL_MODULE adder       	
 ###########REPLACE BY ZEQI#########
 
 #################################################
