@@ -1,4 +1,6 @@
-module adder(clock,reset,data_in1,data_in2,data_out);
+module adder(
+  `include "cl_ports.vh" // Fixed port definition
+clock,reset,data_in1,data_in2,data_out);
 
 input wire clock;
 input wire reset;
