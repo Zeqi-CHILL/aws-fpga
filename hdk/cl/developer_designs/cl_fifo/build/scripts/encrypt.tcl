@@ -37,7 +37,10 @@ file copy -force $CL_DIR/design/cl_fifo.sv                            $TARGET_DI
 file copy -force $CL_DIR/design/user_cl_top.v                         $TARGET_DIR 
 file copy -force $CL_DIR/design/write_to_fifo.v                       $TARGET_DIR 
 file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR 
-file copy -force $CL_DIR/../../aws-fpga/hdk/cl/examples/common/design/cl_common_defines.vh        $TARGET_DIR 
+#file copy -force $CL_DIR/../../aws-fpga/hdk/cl/examples/common/design/cl_common_defines.vh        $TARGET_DIR 
+##ADD BY ZEQI
+file copy -force $CL_DIR/../common/design/cl_common_defines.vh        $TARGET_DIR
+##END BY ZEQI 
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_ddr_a_b_d_template.inc  $TARGET_DIR
