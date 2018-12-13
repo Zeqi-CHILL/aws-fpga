@@ -96,7 +96,7 @@ uint32_t byte_swap(uint32_t value) {
       svSetScope(scope);
     #endif
 
-    uint32_t value = 0x00000004;
+    uint32_t value = 0x00000014;
     int slot_id = 0;
     int rc;
     
