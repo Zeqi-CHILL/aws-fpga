@@ -18,7 +18,7 @@ module user_cl_top_adder (
     // data outputs to output FIFO
     input wire                  data_full,
     output reg                  data_wr,
-    output reg [DATA_WIDTH-1:0] data_dout,
+    output reg [DATA_WIDTH-1:0] data_dout
 /*
     // control inputs (assuming FIFO interface for now
     // but there should never be more than one input at a time,
