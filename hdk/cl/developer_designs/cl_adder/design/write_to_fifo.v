@@ -149,7 +149,7 @@ always @(posedge clk_main_a0) begin
         IDLE: begin
             if (rvalid && rready) begin
             	rvalid <= 0;
-                rdata  <= 0;
+                rdata  <= 32'h0101_0101;
                 not_waiting_for_fifo <= 1;
                 state <= IDLE;
             end
@@ -157,7 +157,7 @@ always @(posedge clk_main_a0) begin
         		if((araddr_q == `FIFO_ADDR) && !fifo_fifotest_to_cl_empty) begin
         			fifo_fifotest_to_cl_rd <= 1; 
         			not_waiting_for_fifo <= 0;
-        			
+        			rdata <= 32'h10101010;
         			state <= WAIT;
         		end
         		else if((araddr_q == `FIFO_ADDR) && fifo_fifotest_to_cl_empty) begin

@@ -307,7 +307,7 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     /* read it back and print it out; you should expect the byte order to be
      * reversed (That's what this CL does) */
-    sleep(10);
+    sleep(50);
     rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
     fail_on(rc, out, "Unable to read read from the fpga !");
     printf("register: 0x%08x\n", value);
