@@ -10,7 +10,7 @@ always @(posedge clock)
 	begin
 		add_out <= add_in1 + add_in2;
 	end
-
+/*
 always @(posedge clock)
 	begin
 	if(!reset)
@@ -18,4 +18,5 @@ always @(posedge clock)
 			add_out <=5'b00111;
 		end
 	end
+*/
 endmodule

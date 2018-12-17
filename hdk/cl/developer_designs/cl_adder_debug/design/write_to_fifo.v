@@ -103,7 +103,6 @@ always @(posedge clk_main_a0) begin
         if(!fifo_cl_to_fifotest_full) begin
             fifo_cl_to_fifotest_din <= wdata;
             fifo_cl_to_fifotest_wr <= 1;
-	    rdata <= 32'ha0a0a0a0;
         end
     end
     else begin                                // Hold Value

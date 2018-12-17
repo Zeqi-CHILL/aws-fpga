@@ -1,17 +1,17 @@
 {
   "devpayProductCodes" : null,
   "marketplaceProductCodes" : [ "3sppv90yg5o5uyuw20at6ywak" ],
-  "privateIp" : "172.31.18.31",
+  "privateIp" : "172.31.24.201",
   "version" : "2017-09-30",
-  "instanceType" : "c4.4xlarge",
+  "instanceType" : "f1.2xlarge",
   "billingProducts" : null,
-  "instanceId" : "i-0a72c75a0b4df84f7",
+  "instanceId" : "i-0bfe1136a61d068eb",
   "accountId" : "722365961357",
   "availabilityZone" : "us-east-1a",
   "kernelId" : null,
   "ramdiskId" : null,
   "architecture" : "x86_64",
   "imageId" : "ami-0da0d9ed98b33a214",
-  "pendingTime" : "2018-12-13T02:05:48Z",
+  "pendingTime" : "2018-12-17T18:56:40Z",
   "region" : "us-east-1"
 }

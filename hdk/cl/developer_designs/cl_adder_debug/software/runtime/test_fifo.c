@@ -256,7 +256,7 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000025;
+    value = 0x00000015;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
