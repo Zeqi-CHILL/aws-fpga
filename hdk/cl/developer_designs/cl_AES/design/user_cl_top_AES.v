@@ -120,7 +120,7 @@ always @(posedge clock)
 				//if fifo is full, no new results from adder
 				data_dout <= 32'h0000000c;
 				waiting_for_adder <=1'b0;
-				state <= INPUTS_TO_ADDER;
+				state <= INPUTS_TO_AES;
 				end
 			end
 		endcase
