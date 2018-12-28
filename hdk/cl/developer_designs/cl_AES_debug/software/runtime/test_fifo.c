@@ -96,7 +96,7 @@ uint32_t byte_swap(uint32_t value) {
       svSetScope(scope);
     #endif
 
-    uint32_t value = 0x00000004;
+    uint32_t value = 0x00000111;
     int slot_id = 0;
     int rc;
     
@@ -256,49 +256,98 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+1;
+    value=0x00000222;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+1;
+    value=0x00000333;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+1;
+    value=0x00000444;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+1;
+    value=0x00000555;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x00000666;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x00000777;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x00000888;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000999;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000AAA;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000BBB;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000CCC;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000DDD;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000EEE;
+    printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
+    sleep(10);
+    rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
+
+    fail_on(rc, out, "Unable to write to the fpga !");
+
+    value=0x00000FFF;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
@@ -377,6 +426,35 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
     fail_on(rc, out, "Unable to read read from the fpga !");
     printf("register: 0x%08x\n", value);
 
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
+
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
+
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
+
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
+
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
+
+    sleep(10);
+    rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
+    fail_on(rc, out, "Unable to read read from the fpga !");
+    printf("register: 0x%08x\n", value);
 
 
     

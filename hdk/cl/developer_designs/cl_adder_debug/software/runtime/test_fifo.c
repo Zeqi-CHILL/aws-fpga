@@ -251,12 +251,12 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
     
      /* write a value into the mapped address space */
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
-    sleep(20);
+    sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000015;
+    value = 0x00000025;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
@@ -284,21 +284,21 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x0000005a;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x0000005c;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=value+2;
+    value=0x0000005e;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
