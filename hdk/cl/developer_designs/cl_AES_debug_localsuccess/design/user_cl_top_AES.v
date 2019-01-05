@@ -68,7 +68,7 @@ localparam IDLE=0,
 
 reg [7:0] state = IDLE;
 reg waiting_for_adder = 0;
-
+reg [3:0] number_of_inputs = 4'b0000;
 //Read Response
 always @(posedge clock)
 	begin
@@ -103,7 +103,9 @@ always @(posedge clock)
 				d_in <= data_din[7:0];
 				key_in <= data_din[15:8];
 				waiting_for_adder <= 1'b1;
-				if (data_din[31:16]==16'h1111)	
+			//	if (data_din[31:16]==16'h1111)	
+                                number_of_inputs = number_of_inputs +4'b0001;
+                                if(number_of_inputs==4'b1110)  //if there are 16 inputs
 				begin				
 				state <= WAIT;
 				end
