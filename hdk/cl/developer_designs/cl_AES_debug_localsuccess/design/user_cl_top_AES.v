@@ -51,6 +51,7 @@ module user_cl_top_AES (
    	reg [7:0] d_in;
    	wire [7:0] d_out;  
 	wire d_vld;
+	reg input_vld=1'b0;
 	
 	aes_8_bit aes_8bit_test(
 	.rst(~reset_n),
@@ -58,7 +59,8 @@ module user_cl_top_AES (
 	.key_in(key_in), 
 	.d_in(d_in),
 	.d_out(d_out),
-	.d_vld(d_vld)   
+	.d_vld(d_vld),
+	.input_vld(input_vld)   
 	);
 
 localparam IDLE=0,
@@ -103,9 +105,10 @@ always @(posedge clock)
 				d_in <= data_din[7:0];
 				key_in <= data_din[15:8];
 				waiting_for_adder <= 1'b1;
-			//	if (data_din[31:16]==16'h1111)	
-                                number_of_inputs = number_of_inputs +4'b0001;
-                                if(number_of_inputs==4'b1110)  //if there are 16 inputs
+				input_vld <=1'b1;		//input valid, cnt start counting
+				if (data_din[31:16]==16'h1111)	
+                        //        number_of_inputs = number_of_inputs +4'b0001;
+                        //        if(number_of_inputs==4'b1110)  //if there are 16 inputs
 				begin				
 				state <= WAIT;
 				end
@@ -125,8 +128,11 @@ always @(posedge clock)
 				if(!data_full)
 				begin
 				data_wr <= 1'b1;
-				data_dout <= d_out;
-				waiting_for_adder <=1'b0;
+				waiting_for_adder <=1'b0;	
+//				if(d_vld==1'b1)
+//				begin			
+				data_dout <= d_out;		
+//				end			
 					if(!reset_n)
 					begin
 					state <= IDLE;

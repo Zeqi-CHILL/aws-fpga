@@ -1,10 +1,11 @@
-module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
+module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld, input_vld);
     input rst, clk;
     input [7:0] key_in;
     input [7:0] d_in;
     output [7:0] d_out;
-    output reg d_vld;
-
+    output reg d_vld;        //output valid
+    input input_vld;	     //input valid, cnt start counting in "idle" state
+	
     //key scheduler controller
     wire [3:0] round_cnt_w;
     reg input_sel, sbox_sel, last_out_sel, bit_out_sel;
@@ -39,27 +40,34 @@ module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
     parameter b3rd = 3'h3; //last byte go through sbox from redundant register
     parameter norm = 3'h4; //normal round calculate two columns
     parameter shif = 3'h5; //shift 4 byte 
-
+    parameter idle = 3'h6; //idle state before load
     //state machine for key schedule
     always @ (posedge clk)
     begin
         if (rst == 1'b1)
         begin
-            state <= load;
+        //    state <= load;    //commend out by Zeqi
+	    state <= idle;
             cnt <= 4'h0;
         end
         else
         begin
             case (state)
+		idle:
+		begin
+		    if(input_vld==1'b1)	///////////////////////////////////////////
+		    begin
+		    cnt <= cnt+4'h1;
+		    	if(cnt == 4'h2)
+			begin
+		    	state <= load;        //the purpose is delay the start time of cnt
+			cnt <= 4'h0;
+			end
+		    end
+		end
+
                 load: 
                 begin
-		//    if(cnt ==4'h0)       //////////////////////////////////////////////////
-		//    begin                //////////////////////////////////////////////////
-		//    @(posedge clk);	 ///Add by Zeqi for user_top_AES://////////////////
-		//    @(posedge clk);      ///delay "cnt" to wait inputs in user_top_AES.v///
-		//    @(posedge clk);      //////////////////////////////////////////////////
-		//    @(posedge clk);      //////////////////////////////////////////////////
-		//    end                  //////////////////////////////////////////////////
                     cnt <= cnt + 4'h1;
                     if (cnt == 4'hf)
                     begin
@@ -191,7 +199,10 @@ module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
         end
         else
         begin
+	    if (!(state == idle)) /////////////////////////////////////Add by Zeqi, round_cnt conflict 11
+	    begin		  ////////////////////////////////////////////////////////////////
             round_cnt <= round_cnt + 6'h01;
+	    end			  ////////////////////////////////////////////////////////////////
         end
     end
 

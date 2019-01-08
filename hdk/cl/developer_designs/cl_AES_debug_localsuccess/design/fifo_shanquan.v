@@ -26,7 +26,7 @@
 
 
 
-module FIFO_Shanquan # (parameter abits = 6, dbits = 64)(
+module FIFO_Shanquan # (parameter abits = 8, dbits = 64)(
     input clock,
     input reset,
     input wr,
