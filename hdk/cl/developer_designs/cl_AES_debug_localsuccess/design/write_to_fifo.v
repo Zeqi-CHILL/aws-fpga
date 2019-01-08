@@ -128,7 +128,7 @@ always @(posedge clk_main_a0) begin
 
     if (!rst_main_n_sync) begin
         rvalid <= 0;
-        rdata  <= 0;
+        rdata  <= 32'h1111_0000;
         not_waiting_for_fifo <= 1;
         //rst_fifo <= 1;
     end
@@ -141,7 +141,7 @@ always @(posedge clk_main_a0) begin
         IDLE: begin
             if (rvalid && rready) begin
             	rvalid <= 0;
-                rdata  <= 0;
+                rdata  <= 32'h0000_1111;
                 not_waiting_for_fifo <= 1;
                 state <= IDLE;
             end
