@@ -106,7 +106,7 @@ always @(posedge clock)
 				key_in <= data_din[15:8];
 				waiting_for_adder <= 1'b1;
 				input_vld <=1'b1;		//input valid, cnt start counting
-				if (data_din[31:16]==16'h1111)	
+				if (data_din==32'h11110fff)	
                         //        number_of_inputs = number_of_inputs +4'b0001;
                         //        if(number_of_inputs==4'b1110)  //if there are 16 inputs
 				begin				
@@ -114,6 +114,7 @@ always @(posedge clock)
 				end
 				else begin
 				state <= INPUTS_TO_AES;
+				data_dout <= 32'ha0a0a0a0;
 				end
 			end
 
