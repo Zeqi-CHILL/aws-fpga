@@ -4,10 +4,8 @@
 //Date:12/03/2018                                              
 //Modified:01/04/2019                                           
 //Update Description:
-//Since the aes_self module are very sensitive to the clock cycle, 
-//the state machine has been modified to "read all the 16 pairs of inputs uninterruptly and then continuelly write 16 outputs".
-//Origianl: IDLE-INPUTS-WAIT-OUTPUTS and then reapeat 16 times
-//Modified: IDLE-INPUTS*16-WAIT-OUTPUTS*16
+//The aes_8_bit is initiated in this top module. The initiated file can be found in aes_top_revised_cnt.v
+//Since the AES module is extremely sensitive to the time that inputs flow in, the state machine has been modified to "read all the 16 pairs of inputs uninterruptly and then continuelly write outputs".
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -69,8 +67,8 @@ localparam IDLE=0,
 	   OUTPUTS_FROM_AES=3;
 
 reg [7:0] state = IDLE;
-reg waiting_for_adder = 0;
-reg [3:0] number_of_inputs = 4'b0000;
+reg waiting_for_aes = 0;
+
 //Read Response
 always @(posedge clock)
 	begin
@@ -80,17 +78,17 @@ always @(posedge clock)
 		      begin
 			data_rd <= 1'b0;
 			data_wr <= 1'b0;
-			data_dout <= 32'hc0000000;
-			waiting_for_adder <= 1'b0;
+			data_dout <= 32'ha0000000;
+			waiting_for_aes <= 1'b0;
 		      end
 		else begin
 		case(state)
 
 		IDLE:
 			begin
-				if(!data_empty && !waiting_for_adder)
+				if(!data_empty && !waiting_for_aes)
 				begin
-					waiting_for_adder <= 1'b1;
+					waiting_for_aes <= 1'b1;
 					state <= INPUTS_TO_AES;
 				end
 				else begin
@@ -99,22 +97,20 @@ always @(posedge clock)
 			end
 
 		INPUTS_TO_AES: 
-			//data input to adder			
+			//data input to AES module			
 			begin
 				data_rd <=1;	
 				d_in <= data_din[7:0];
 				key_in <= data_din[15:8];
-				waiting_for_adder <= 1'b1;
-				input_vld <=1'b1;		//input valid, cnt start counting
-				if (data_din==32'h11110fff)	
-                        //        number_of_inputs = number_of_inputs +4'b0001;
-                        //        if(number_of_inputs==4'b1110)  //if there are 16 inputs
+				waiting_for_aes <= 1'b1;
+				input_vld <=1'b1;		 //input valid, the register "cnt" in AES module start counting
+				if (data_din[31:16]==16'h1111)	 //The AES module is extremely sensitive to the time that inputs flow in. There are 16 pairs of key and data needed to be input to the AES module CONTINUOUSLY. Here to set the top 16 bits of data_din as a flag that all 16 pairs of inputs has been written to AES module. Then, the state can transfer to read the encrypted outputs.   
 				begin				
 				state <= WAIT;
 				end
 				else begin
 				state <= INPUTS_TO_AES;
-				data_dout <= 32'ha0a0a0a0;
+				data_dout <= 32'ha0a0a0a0;    //for convenience to debug whether the state mahine has stucked
 				end
 			end
 
@@ -124,12 +120,12 @@ always @(posedge clock)
 			end
 
 		OUTPUTS_FROM_AES:
-			//results from adder		
+			//results from aes		
 			begin
 				if(!data_full)
 				begin
 				data_wr <= 1'b1;
-				waiting_for_adder <=1'b0;	
+				waiting_for_aes <=1'b0;	
 //				if(d_vld==1'b1)
 //				begin			
 				data_dout <= d_out;		
@@ -144,8 +140,8 @@ always @(posedge clock)
 				end
 				else begin
 				//if fifo is full, no new results from aes
-				data_dout <= 32'h0000000c;
-				waiting_for_adder <=1'b0;
+				data_dout <= 32'h0a0a0a0a;
+				waiting_for_aes <=1'b0;
 				state <= INPUTS_TO_AES;
 				end
 			end

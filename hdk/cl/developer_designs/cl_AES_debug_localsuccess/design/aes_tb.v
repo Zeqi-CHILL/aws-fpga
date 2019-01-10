@@ -106,7 +106,7 @@ module aes_tb;
         key_in = kin[7:0];
         d_in = din[7:0];
 
-	#(CYCLE*10);	
+	#(CYCLE*50);	
 	$finish;
     end
 endmodule

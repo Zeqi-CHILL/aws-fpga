@@ -40,7 +40,7 @@ file copy -force $CL_DIR/design/write_to_fifo.v                       $TARGET_DI
 file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR  
 file copy -force $CL_DIR/design/user_cl_top_AES.v                     $TARGET_DIR 
 #file copy -force $CL_DIR/design/aes_top.v	                      $TARGET_DIR
-file copy -force $CL_DIR/design/aes_top_revised_for_fifo.v            $TARGET_DIR
+file copy -force $CL_DIR/design/aes_top_revised_cnt.v	              $TARGET_DIR
 file copy -force $CL_DIR/design/aes_data_path.v                       $TARGET_DIR
 file copy -force $CL_DIR/design/byte_permutation_unit.v               $TARGET_DIR
 file copy -force $CL_DIR/design/key_expansion.v                       $TARGET_DIR
