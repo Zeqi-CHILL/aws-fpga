@@ -72,7 +72,7 @@ always @(posedge clock)
 		      begin
 			data_rd <= 1'b0;
 			data_wr <= 1'b0;
-			data_dout <= 32'hc0000000;
+			data_dout <= 0;
 			waiting_for_adder <= 1'b0;
 		      end
 		else begin
@@ -117,7 +117,7 @@ always @(posedge clock)
 				end
 				else begin
 				//if fifo is full, no new results from adder
-				data_dout <= 32'h0000000c;
+				data_dout <= 0;
 				waiting_for_adder <=1'b0;
 				state <= INPUTS_TO_ADDER;
 				end

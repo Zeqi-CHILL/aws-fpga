@@ -26,7 +26,7 @@ LDLIBS = -lfpga_mgmt -lrt -lpthread
 
 SRC = ${SDK_DIR}/userspace/utils/sh_dpi_tasks.c test_fifo.c
 OBJ = $(SRC:.c=.o)
-BIN = test_fifo
+BIN = test_cl_adder
 
 all: $(BIN) check_env
 

@@ -52,16 +52,18 @@ user_cl_top user_cl_top_inst(
     .data_dout (fifo_fifotest_to_cl_din)
     );
 */
+
 user_cl_top_adder user_cl_top_adder_inst(
-    .clock (clk_main_a0),
-    .reset_n (rst_main_n_sync),
-    .data_empty (fifo_cl_to_fifotest_empty),
-    .data_rd (fifo_cl_to_fifotest_rd),
-    .data_din (fifo_cl_to_fifotest_dout),
-    .data_full (fifo_fifotest_to_cl_full),
-    .data_wr (fifo_fifotest_to_cl_wr),
-    .data_dout (fifo_fifotest_to_cl_din)
-    );
+	.clock(clk_main_a0),
+	.reset_n(rst_main_n_sync),
+	.data_empty (fifo_cl_to_fifotest_empty),
+	.data_rd (fifo_cl_to_fifotest_rd),
+	.data_din (fifo_cl_to_fifotest_dout),
+	.data_full (fifo_fifotest_to_cl_full),
+	.data_wr (fifo_fifotest_to_cl_wr),
+	.data_dout (fifo_fifotest_to_cl_din)
+	);
+
 //define wires
 reg fifo_fifotest_to_cl_rd;
 reg  [31:0] fifo_cl_to_fifotest_din;
@@ -92,7 +94,7 @@ always @(posedge clk_main_a0) begin
     fifo_cl_to_fifotest_wr <= 0;
 
     if (!rst_main_n_sync) begin                    // Reset
-        hello_world_q_internal[31:0] <= 32'ha000_0000;
+        hello_world_q_internal[31:0] <= 32'h0000_0000;
     end
     else if (wready & (wr_addr == `HELLO_WORLD_REG_ADDR || wr_addr == `PLUS_ONE_ADDR || wr_addr == `TIMES_TWO_ADDR)) begin  //write wdata to address
         hello_world_q_internal[31:0] <= wdata[31:0];
@@ -134,7 +136,7 @@ always @(posedge clk_main_a0) begin
 
     if (!rst_main_n_sync) begin
         rvalid <= 0;
-        rdata  <= 32'h0000000a;
+        rdata  <= 0;
         not_waiting_for_fifo <= 1;
         //rst_fifo <= 1;
     end
@@ -147,7 +149,7 @@ always @(posedge clk_main_a0) begin
         IDLE: begin
             if (rvalid && rready) begin
             	rvalid <= 0;
-                rdata  <= 32'h000000a0;
+                rdata  <= 32'h0101_0101;
                 not_waiting_for_fifo <= 1;
                 state <= IDLE;
             end
@@ -155,7 +157,7 @@ always @(posedge clk_main_a0) begin
         		if((araddr_q == `FIFO_ADDR) && !fifo_fifotest_to_cl_empty) begin
         			fifo_fifotest_to_cl_rd <= 1; 
         			not_waiting_for_fifo <= 0;
-        			rdata <= 32'h00000a00;
+        			rdata <= 32'h10101010;
         			state <= WAIT;
         		end
         		else if((araddr_q == `FIFO_ADDR) && fifo_fifotest_to_cl_empty) begin

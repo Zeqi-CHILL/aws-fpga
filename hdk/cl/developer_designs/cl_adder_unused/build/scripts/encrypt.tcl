@@ -31,15 +31,22 @@ if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
 #---- Developr would replace this section with design files ----
 
 ## Change file names and paths below to reflect your CL area.  DO NOT include AWS RTL files.
-#file copy -force $CL_DIR/design/cl_hello_world_defines.vh             $TARGET_DIR
-file copy -force $CL_DIR/design/cl_id_defines.vh                      $TARGET_DIR
-#file copy -force $CL_DIR/design/cl_hello_world.sv                     $TARGET_DIR
+
+###########REPLACE BY ZEQI########################################################
+###########Design Files:ADDER#####################################################
 file copy -force $CL_DIR/design/cl_fifo_defines.vh                    $TARGET_DIR
+file copy -force $CL_DIR/design/cl_id_defines.vh                      $TARGET_DIR
 file copy -force $CL_DIR/design/cl_fifo.sv                            $TARGET_DIR 
-file copy -force $CL_DIR/design/user_cl_top_adder.v                   $TARGET_DIR 
 file copy -force $CL_DIR/design/write_to_fifo.v                       $TARGET_DIR 
-file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR  
-file copy -force $CL_DIR/design/adder.v              	              $TARGET_DIR  
+file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR 
+file copy -force $CL_DIR/design/user_cl_top_adder.v                   $TARGET_DIR
+file copy -force $CL_DIR/design/user_cl_top_adder_tb.v	              $TARGET_DIR 
+file copy -force $CL_DIR/design/adder.v			              $TARGET_DIR
+###########REPLACE BY ZEQI########################################################
+
+#file copy -force $CL_DIR/design/cl_hello_world_defines.vh             $TARGET_DIR
+#file copy -force $CL_DIR/design/cl_id_defines.vh                      $TARGET_DIR
+#file copy -force $CL_DIR/design/cl_hello_world.sv                     $TARGET_DIR 
 file copy -force $CL_DIR/../common/design/cl_common_defines.vh        $TARGET_DIR 
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR

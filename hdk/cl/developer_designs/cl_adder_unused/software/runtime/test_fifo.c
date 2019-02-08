@@ -251,54 +251,54 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
     
      /* write a value into the mapped address space */
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
-    sleep(10);
+    sleep(20);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000025;
+    value=value+1;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000036;
+    value=value+1;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000047;
+    value=value+1;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value = 0x00000058;
+    value=value+1;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=0x0000005a;
+    value=value+2;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=0x0000005c;
+    value=value+2;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
 
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    value=0x0000005e;
+    value=value+2;
     printf("Writing 0x%08x to FIFO_ADDR register (0x%016lx)\n", value, FIFO_ADDR);
     sleep(10);
     rc = fpga_pci_poke(pci_bar_handle, FIFO_ADDR, value);
@@ -307,7 +307,7 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     /* read it back and print it out; you should expect the byte order to be
      * reversed (That's what this CL does) */
-    sleep(10);
+    sleep(50);
     rc = fpga_pci_peek(pci_bar_handle, FIFO_ADDR, &value);
     fail_on(rc, out, "Unable to read read from the fpga !");
     printf("register: 0x%08x\n", value);

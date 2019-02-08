@@ -19,7 +19,10 @@ package require tar
 set TOP top_sp
 
 ## Replace with the name of your module
-set CL_MODULE cl_fifo
+#set CL_MODULE cl_hello_world
+###########REPLACE BY ZEQI#########
+set CL_MODULE cl_fifo     	
+###########REPLACE BY ZEQI#########
 
 #################################################
 ## Command-line Arguments
