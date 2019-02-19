@@ -1,17 +1,17 @@
 {
-  "privateIp" : "172.31.17.252",
   "devpayProductCodes" : null,
   "marketplaceProductCodes" : [ "3sppv90yg5o5uyuw20at6ywak" ],
   "version" : "2017-09-30",
-  "instanceType" : "f1.2xlarge",
+  "instanceType" : "c4.4xlarge",
+  "imageId" : "ami-0da0d9ed98b33a214",
   "billingProducts" : null,
-  "instanceId" : "i-00fbd9eb4af0f1bc1",
+  "instanceId" : "i-00fe6041b26291a44",
   "accountId" : "722365961357",
-  "availabilityZone" : "us-east-1a",
+  "availabilityZone" : "us-east-1b",
   "kernelId" : null,
   "ramdiskId" : null,
   "architecture" : "x86_64",
-  "imageId" : "ami-0da0d9ed98b33a214",
-  "pendingTime" : "2018-12-28T02:33:16Z",
+  "privateIp" : "172.31.43.56",
+  "pendingTime" : "2019-02-19T03:11:36Z",
   "region" : "us-east-1"
 }

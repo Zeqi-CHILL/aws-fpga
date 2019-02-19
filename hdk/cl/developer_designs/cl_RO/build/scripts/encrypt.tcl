@@ -33,6 +33,7 @@ if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
 ## Change file names and paths below to reflect your CL area.  DO NOT include AWS RTL files.
 file copy -force $CL_DIR/design/cl_hello_world_defines.vh             $TARGET_DIR
 file copy -force $CL_DIR/design/cl_id_defines.vh                      $TARGET_DIR
+file copy -force $CL_DIR/design/cl_RO_defines.vh                      $TARGET_DIR
 file copy -force $CL_DIR/design/cl_RO.sv                     	      $TARGET_DIR 
 file copy -force $CL_DIR/design/enable_RO.sv                          $TARGET_DIR 
 file copy -force $CL_DIR/design/powerwaster.sv                        $TARGET_DIR 
