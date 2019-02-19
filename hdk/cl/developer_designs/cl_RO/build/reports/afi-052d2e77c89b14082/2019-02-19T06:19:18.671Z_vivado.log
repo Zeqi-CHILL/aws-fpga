@@ -1,0 +1,151 @@
+#-----------------------------------------------------------
+# Vivado v2018.2_AR71275_op (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Tue Feb 19 06:22:36 2019
+# Process ID: 1927
+# Current directory: /home/builder/scripts
+# Command line: vivado -mode batch -source ingest.tcl
+# Log file: /home/builder/scripts/vivado.log
+# Journal file: /home/builder/scripts/vivado.jou
+#-----------------------------------------------------------
+source ingest.tcl
+# set userDCP "../checkpoints/SH_CL_routed.dcp"
+# set awsDCP  "../checkpoints/SH_CL_BB_routed.dcp"
+# set powerDefaultRPT "../reports/power_report.default.rpt"
+# set powerStaticRPT  "../reports/power_report.static.rpt"
+# set timingRPT       "../reports/SH_CL_final_timing_summary.rpt"
+# set ioRPT           "../reports/report_io.rpt"
+# set partialBIT      "../bitstreams/SH_CL_final_pblock_CL_partial.bit"
+# set partialLTX      "../bitstreams/SH_CL_final_pblock_CL_partial.ltx"
+# set CL_PATH WRAPPER_INST/CL
+# puts "Ingest start time: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Ingest start time: [Tue Feb 19 06:25:06 2019]
+# set_param hd.supportClockNetCrossDiffReconfigurablePartitions 1
+# set_param hd.platformVerifyCachedRun false
+# check_integrity $userDCP
+INFO: [Vivado 12-5531] Integrity check successful: /home/builder/checkpoints/SH_CL_routed.dcp
+# set_msg_config -severity INFO -suppress
+# set_msg_config -severity STATUS -suppress
+# set_msg_config -severity WARNING -suppress
+CRITICAL WARNING: [Common 17-1355] You are suppressing all messages of type 'WARNING'. You may potentially disregard important DRC, CDC, and implementation messages that can negatively impact your design.  If this is not desired, please run 'reset_msg_config -suppress -severity {WARNING}' to undo this change.
+# set_msg_config -id {Chipscope 16-3} -suppress
+# set_msg_config -string {AXI_QUAD_SPI} -suppress
+# puts "Opening user DCP $userDCP: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Opening user DCP ../checkpoints/SH_CL_routed.dcp: [Tue Feb 19 06:25:08 2019]
+# open_checkpoint $userDCP
+Read XDEF File: Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 5239.316 ; gain = 455.672 ; free physical = 63964 ; free virtual = 101338
+Finished XDEF File Restore: Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 5239.316 ; gain = 455.672 ; free physical = 63962 ; free virtual = 101336
+open_checkpoint: Time (s): cpu = 00:02:43 ; elapsed = 00:05:56 . Memory (MB): peak = 5295.344 ; gain = 4002.969 ; free physical = 64037 ; free virtual = 101427
+# puts "Checking User DCP is fully routed: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Checking User DCP is fully routed: [Tue Feb 19 06:31:04 2019]
+# if { [llength [get_nets -hierarchical -filter { ROUTE_STATUS == "UNROUTED" }]] != 0} {
+#   puts "***ERROR*** DCP has unrouted nets, ingestion failed, exiting..."
+#   exit 1
+# }
+get_nets: Time (s): cpu = 00:00:36 ; elapsed = 00:00:28 . Memory (MB): peak = 5626.539 ; gain = 331.195 ; free physical = 63801 ; free virtual = 101191
+# puts "Running pr_verify on initial DCP vs user DCP: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Running pr_verify on initial DCP vs user DCP: [Tue Feb 19 06:31:32 2019]
+# pr_verify -full_check -in_memory -additional $awsDCP
+Read XDEF File: Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 8169.641 ; gain = 655.898 ; free physical = 61230 ; free virtual = 98621
+Finished XDEF File Restore: Time (s): cpu = 00:00:32 ; elapsed = 00:00:33 . Memory (MB): peak = 8169.641 ; gain = 655.898 ; free physical = 61229 ; free virtual = 98620
+pr_verify: Time (s): cpu = 00:06:15 ; elapsed = 00:07:58 . Memory (MB): peak = 8569.641 ; gain = 2943.102 ; free physical = 63445 ; free virtual = 100846
+# puts "Enabling check for combinatorial loops: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Enabling check for combinatorial loops: [Tue Feb 19 06:39:30 2019]
+# if { [llength [get_nets -hierarchical -filter {ALLOW_COMBINATORIAL_LOOPS==TRUE}]] != 0} {
+#   puts "Negating ALLOW_COMBINATORIAL_LOOPS properties: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+#   set_property ALLOW_COMBINATORIAL_LOOPS FALSE [get_nets -hier -filter {ALLOW_COMBINATORIAL_LOOPS==TRUE} -quiet] -quiet
+# }
+get_nets: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 8569.641 ; gain = 0.000 ; free physical = 63445 ; free virtual = 100846
+# foreach myObject [get_cells -of_objects [get_sites CONFIG_SITE_*]] {
+#   if { [get_property BEL $myObject] == "CONFIG_SITE.DNA_PORT" } {
+#     puts "***CRITICAL WARNING***: DCP has DNA_PORT instantiation. This support will be deprecated in future..."
+#     ## puts "***ERROR*** DCP has DNA_PORT instantiation, ingestion failed, exiting..."
+#     ## exit 1
+#   }
+# }
+# puts "Running write_bitstream for CL: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Running write_bitstream for CL: [Tue Feb 19 06:39:35 2019]
+# write_bitstream -force -bin_file -cell $CL_PATH $partialBIT
+ERROR: [DRC LUTLP-1] Combinatorial Loop Alert: 1 LUT cells form a combinatorial loop. This can create a race condition. Timing analysis may not be accurate. The preferred resolution is to modify the design to remove combinatorial logic loops. If the loop is known and understood, this DRC can be bypassed by acknowledging the condition and setting the following XDC constraint on any one of the nets in the loop: 'set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets <myHier/myNet>]'. One net in the loop is WRAPPER_INST/CL/enable_RO_inst/pw_out. Please evaluate your design. The cells in the loop are: WRAPPER_INST/CL/enable_RO_inst/rdata[0]_i_3.
+ERROR: [Vivado 12-1345] Error(s) found during DRC. Bitgen not run.
+write_bitstream: Time (s): cpu = 00:02:27 ; elapsed = 00:00:57 . Memory (MB): peak = 8601.656 ; gain = 32.016 ; free physical = 63373 ; free virtual = 100777
+ERROR: [Common 17-39] 'write_bitstream' failed due to earlier errors.
+
+    while executing
+"write_bitstream -force -bin_file -cell $CL_PATH $partialBIT"
+    (file "ingest.tcl" line 84)
+[stdout]
+
+****** Vivado v2018.2_AR71275_op (64-bit)
+  **** SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+  **** IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+
+source ingest.tcl
+# set userDCP "../checkpoints/SH_CL_routed.dcp"
+# set awsDCP  "../checkpoints/SH_CL_BB_routed.dcp"
+# set powerDefaultRPT "../reports/power_report.default.rpt"
+# set powerStaticRPT  "../reports/power_report.static.rpt"
+# set timingRPT       "../reports/SH_CL_final_timing_summary.rpt"
+# set ioRPT           "../reports/report_io.rpt"
+# set partialBIT      "../bitstreams/SH_CL_final_pblock_CL_partial.bit"
+# set partialLTX      "../bitstreams/SH_CL_final_pblock_CL_partial.ltx"
+# set CL_PATH WRAPPER_INST/CL
+# puts "Ingest start time: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Ingest start time: [Tue Feb 19 06:25:06 2019]
+# set_param hd.supportClockNetCrossDiffReconfigurablePartitions 1
+# set_param hd.platformVerifyCachedRun false
+# check_integrity $userDCP
+INFO: [Vivado 12-5531] Integrity check successful: /home/builder/checkpoints/SH_CL_routed.dcp
+# set_msg_config -severity INFO -suppress
+# set_msg_config -severity STATUS -suppress
+# set_msg_config -severity WARNING -suppress
+CRITICAL WARNING: [Common 17-1355] You are suppressing all messages of type 'WARNING'. You may potentially disregard important DRC, CDC, and implementation messages that can negatively impact your design.  If this is not desired, please run 'reset_msg_config -suppress -severity {WARNING}' to undo this change.
+# set_msg_config -id {Chipscope 16-3} -suppress
+# set_msg_config -string {AXI_QUAD_SPI} -suppress
+# puts "Opening user DCP $userDCP: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Opening user DCP ../checkpoints/SH_CL_routed.dcp: [Tue Feb 19 06:25:08 2019]
+# open_checkpoint $userDCP
+Read XDEF File: Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 5239.316 ; gain = 455.672 ; free physical = 63964 ; free virtual = 101338
+Finished XDEF File Restore: Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 5239.316 ; gain = 455.672 ; free physical = 63962 ; free virtual = 101336
+open_checkpoint: Time (s): cpu = 00:02:43 ; elapsed = 00:05:56 . Memory (MB): peak = 5295.344 ; gain = 4002.969 ; free physical = 64037 ; free virtual = 101427
+# puts "Checking User DCP is fully routed: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Checking User DCP is fully routed: [Tue Feb 19 06:31:04 2019]
+# if { [llength [get_nets -hierarchical -filter { ROUTE_STATUS == "UNROUTED" }]] != 0} {
+#   puts "***ERROR*** DCP has unrouted nets, ingestion failed, exiting..."
+#   exit 1
+# }
+get_nets: Time (s): cpu = 00:00:36 ; elapsed = 00:00:28 . Memory (MB): peak = 5626.539 ; gain = 331.195 ; free physical = 63801 ; free virtual = 101191
+# puts "Running pr_verify on initial DCP vs user DCP: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Running pr_verify on initial DCP vs user DCP: [Tue Feb 19 06:31:32 2019]
+# pr_verify -full_check -in_memory -additional $awsDCP
+Read XDEF File: Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 8169.641 ; gain = 655.898 ; free physical = 61230 ; free virtual = 98621
+Finished XDEF File Restore: Time (s): cpu = 00:00:32 ; elapsed = 00:00:33 . Memory (MB): peak = 8169.641 ; gain = 655.898 ; free physical = 61229 ; free virtual = 98620
+pr_verify: Time (s): cpu = 00:06:15 ; elapsed = 00:07:58 . Memory (MB): peak = 8569.641 ; gain = 2943.102 ; free physical = 63445 ; free virtual = 100846
+# puts "Enabling check for combinatorial loops: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Enabling check for combinatorial loops: [Tue Feb 19 06:39:30 2019]
+# if { [llength [get_nets -hierarchical -filter {ALLOW_COMBINATORIAL_LOOPS==TRUE}]] != 0} {
+#   puts "Negating ALLOW_COMBINATORIAL_LOOPS properties: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+#   set_property ALLOW_COMBINATORIAL_LOOPS FALSE [get_nets -hier -filter {ALLOW_COMBINATORIAL_LOOPS==TRUE} -quiet] -quiet
+# }
+get_nets: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 8569.641 ; gain = 0.000 ; free physical = 63445 ; free virtual = 100846
+# foreach myObject [get_cells -of_objects [get_sites CONFIG_SITE_*]] {
+#   if { [get_property BEL $myObject] == "CONFIG_SITE.DNA_PORT" } {
+#     puts "***CRITICAL WARNING***: DCP has DNA_PORT instantiation. This support will be deprecated in future..."
+#     ## puts "***ERROR*** DCP has DNA_PORT instantiation, ingestion failed, exiting..."
+#     ## exit 1
+#   }
+# }
+# puts "Running write_bitstream for CL: \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
+Running write_bitstream for CL: [Tue Feb 19 06:39:35 2019]
+# write_bitstream -force -bin_file -cell $CL_PATH $partialBIT
+write_bitstream: Time (s): cpu = 00:02:27 ; elapsed = 00:00:57 . Memory (MB): peak = 8601.656 ; gain = 32.016 ; free physical = 63373 ; free virtual = 100777
+ERROR: [Common 17-39] 'write_bitstream' failed due to earlier errors.
+
+    while executing
+"write_bitstream -force -bin_file -cell $CL_PATH $partialBIT"
+    (file "ingest.tcl" line 84)
+[stderr]
+ERROR: [DRC LUTLP-1] Combinatorial Loop Alert: 1 LUT cells form a combinatorial loop. This can create a race condition. Timing analysis may not be accurate. The preferred resolution is to modify the design to remove combinatorial logic loops. If the loop is known and understood, this DRC can be bypassed by acknowledging the condition and setting the following XDC constraint on any one of the nets in the loop: 'set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets <myHier/myNet>]'. One net in the loop is WRAPPER_INST/CL/enable_RO_inst/pw_out. Please evaluate your design. The cells in the loop are: WRAPPER_INST/CL/enable_RO_inst/rdata[0]_i_3.
+ERROR: [Vivado 12-1345] Error(s) found during DRC. Bitgen not run.
