@@ -225,6 +225,10 @@ if {$implement} {
       #Read the constraints, note *DO NOT* read cl_clocks_aws (clocks originating from AWS shell)
       read_xdc [ list \
          $CL_DIR/build/constraints/cl_pnr_user.xdc
+         #################################
+	 #set the combinational loop valid---Zeqi
+	 $CL_DIR/build/constraints/cl_RO_con.xdc
+	 #################################
       ]
       set_property PROCESSING_ORDER late [get_files cl_pnr_user.xdc]
 
