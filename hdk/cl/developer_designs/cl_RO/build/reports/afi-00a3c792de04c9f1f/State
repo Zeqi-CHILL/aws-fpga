@@ -1,0 +1,1 @@
+{State=failed, ErrorMessage=An error occurred generating the FPGA image bitstream. If an S3 LogsStorageLocation was provided in the CreateFpgaImage request, review the captured bitstream generation logs saved to S3 under the FpgaImageId for this AFI., ErrorCode=UNKNOWN_BITSTREAM_GENERATE_ERROR}

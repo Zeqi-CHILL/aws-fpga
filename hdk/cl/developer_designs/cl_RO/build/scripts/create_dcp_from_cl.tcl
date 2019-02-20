@@ -225,11 +225,12 @@ if {$implement} {
       #Read the constraints, note *DO NOT* read cl_clocks_aws (clocks originating from AWS shell)
       read_xdc [ list \
          $CL_DIR/build/constraints/cl_pnr_user.xdc
-         #################################
-	 #set the combinational loop valid---Zeqi
-	 $CL_DIR/build/constraints/cl_RO_con.xdc
-	 #################################
       ]
+
+      read_xdc [ list \
+         $CL_DIR/build/constraints/ro_con.xdc
+      ]
+
       set_property PROCESSING_ORDER late [get_files cl_pnr_user.xdc]
 
       puts "\nAWS FPGA: ([clock format [clock seconds] -format %T]) - Running link_design";
