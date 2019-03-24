@@ -1,6 +1,6 @@
 INFO: [XSIM 43-3496] Using init file passed via -initfile option "/opt/Xilinx/Vivado/2018.2.op2258646/data/xsim/ip/xsim_ip.ini".
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/common/design/cl_common_defines.vh" into library xil_defaultlib
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/design/cl_hello_world_defines.vh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_hello_world_defines.vh" into library xil_defaultlib
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/ip/ila_vio_counter/sim/ila_vio_counter.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module ila_vio_counter
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/ip/ila_0/sim/ila_0.v" into library xil_defaultlib
@@ -200,8 +200,21 @@ INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/com
 INFO: [VRFC 10-311] analyzing module fifo_generator_v13_2_1
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_clock_converter_0/sim/axi_clock_converter_0.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module axi_clock_converter_0
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/design/cl_hello_world.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module cl_hello_world
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_fifo
+WARNING: [VRFC 10-998] macro CL_NAME redefined [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo_defines.vh:20]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo_defines.vh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_id_defines.vh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/write_to_fifo.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module write_to_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/fifo_shanquan.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module FIFO_Shanquan
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/user_cl_top_adder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module user_cl_top_adder
+WARNING: [VRFC 10-756] identifier DATA_WIDTH is used before its declaration [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/user_cl_top_adder.v:16]
+WARNING: [VRFC 10-756] identifier DATA_WIDTH is used before its declaration [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/user_cl_top_adder.v:21]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/adder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module adder
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/opt/Xilinx/Vivado/2018.2.op2258646/data/verilog/src/glbl.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module glbl
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/phy/ddr4_phy_v2_2_xiphy_behav.sv" into library xil_defaultlib
@@ -433,42 +446,5 @@ INFO: [VRFC 10-311] analyzing module card
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/tb/sv/tb.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb
 INFO: [VRFC 10-311] analyzing module short
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/tests/test_cl_adder.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/tests/test_cl_adder.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module test_cl_adder
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/sh_ddr.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module sh_ddr
-INFO: [VRFC 10-2786]       Resolving module sh_ddr
-WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/sh_ddr.sv:797]
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/flop_ccf.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module flop_ccf
-INFO: [VRFC 10-2786]       Resolving module flop_ccf
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/sync.v" into library library 2
-INFO: [VRFC 10-311] analyzing module sync
-INFO: [VRFC 10-2786]       Resolving module sync
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/mgt_acc_axl.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module mgt_acc_axl
-INFO: [VRFC 10-2786]       Resolving module mgt_acc_axl
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/ccf_ctl.v" into library library 2
-INFO: [VRFC 10-311] analyzing module ccf_ctl
-INFO: [VRFC 10-2786]       Resolving module ccf_ctl
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/mgt_gen_axl.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module mgt_gen_axl
-INFO: [VRFC 10-2786]       Resolving module mgt_gen_axl
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rdimm_wrapper.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module ddr4_rdimm_wrapper
-INFO: [VRFC 10-2786]       Resolving module ddr4_rdimm_wrapper
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rcd_model.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module ddr4_rcd_model
-INFO: [VRFC 10-2786]       Resolving module ddr4_rcd_model
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_db_delay_model.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module ddr4_db_delay_model
-INFO: [VRFC 10-2786]       Resolving module ddr4_db_delay_model
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_dimm.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module ddr4_dimm
-INFO: [VRFC 10-2786]       Resolving module ddr4_dimm
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rank.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module ddr4_rank
-INFO: [VRFC 10-2786]       Resolving module ddr4_rank
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/centos/aws-fpga/hdk/common/shell_v04261818/design/lib/lib_pipe.sv" into library library 2
-INFO: [VRFC 10-311] analyzing module lib_pipe
-INFO: [VRFC 10-2786]       Resolving module lib_pipe

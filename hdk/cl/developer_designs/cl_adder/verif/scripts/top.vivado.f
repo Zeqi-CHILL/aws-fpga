@@ -60,10 +60,12 @@ ${HDK_SHELL_DESIGN_DIR}/ip/axi_clock_converter_0/hdl/axi_clock_converter_v2_1_vl
 ${HDK_SHELL_DESIGN_DIR}/ip/axi_clock_converter_0/hdl/fifo_generator_v13_2_rfs.v
 ${SH_LIB_DIR}/../ip/axi_clock_converter_0/sim/axi_clock_converter_0.v
 ${CL_ROOT}/design/cl_fifo.sv
+${CL_ROOT}/design/cl_fifo_defines.vh
+${CL_ROOT}/design/cl_id_defines.vh
 ${CL_ROOT}/design/write_to_fifo.v
 ${CL_ROOT}/design/fifo_shanquan.v
 ${CL_ROOT}/design/user_cl_top_adder.v
-
+${CL_ROOT}/design/adder.v
 
 -f ${HDK_COMMON_DIR}/verif/tb/filelists/tb.${SIMULATOR}.f
 

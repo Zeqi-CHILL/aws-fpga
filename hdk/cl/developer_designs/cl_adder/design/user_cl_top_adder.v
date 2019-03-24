@@ -42,6 +42,11 @@ module user_cl_top_adder (
 
 // Add logic here...
 
+	//define ADDER wires
+	reg  [3:0] add_in1;
+	reg  [3:0] add_in2;
+	wire [4:0] add_out;
+
 	adder adder_inst(
 	.clock(clock),
 	.reset(reset_n),
@@ -49,11 +54,6 @@ module user_cl_top_adder (
 	.add_in2(add_in2),
 	.add_out(add_out)
 	);
-
-	//define ADDER wires
-	reg  [3:0] add_in1;
-	reg  [3:0] add_in2;
-	wire [4:0] add_out;
 
 localparam IDLE=0,
 	   INPUTS_TO_ADDER=1,
@@ -81,6 +81,7 @@ always @(posedge clock)
 		IDLE:
 			begin
 				if(!data_empty && !waiting_for_adder)
+			//	if(!waiting_for_adder)               //data_empty was detected one clock cycle later after posedge trigger and therefore cause timing problem. TRY this first.
 				begin
 					waiting_for_adder <= 1'b1;
 					state <= INPUTS_TO_ADDER;

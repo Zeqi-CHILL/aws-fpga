@@ -1,0 +1,11 @@
+aws-fpga/hdk/cl/developer_designs
+
+<cl_hello_world>
+SV TEST PASSED
+C  TEST PASSED
+F1 TEST PASSED
+
+<cl_fifo_selfadd>
+SV TEST PASSED
+C  TEST PASSED
+F1 TEST PASSED

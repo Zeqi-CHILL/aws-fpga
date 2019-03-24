@@ -2,19 +2,19 @@
 # xsim v2018.2_AR71275_op (64-bit)
 # SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
 # IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
-# Start of session at: Fri Jan 25 00:45:40 2019
-# Process ID: 16788
-# Current directory: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/sim/vivado/test_cl_adder
+# Start of session at: Sun Mar 24 02:08:39 2019
+# Process ID: 12539
+# Current directory: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/sim/vivado/test_cl_adder
 # Command line: xsim -log test_cl_adder.log -mode tcl -source {xsim.dir/tb/xsim_script.tcl}
-# Log file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/sim/vivado/test_cl_adder/test_cl_adder.log
-# Journal file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/sim/vivado/test_cl_adder/xsim.jou
+# Log file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/sim/vivado/test_cl_adder/test_cl_adder.log
+# Journal file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/sim/vivado/test_cl_adder/xsim.jou
 #-----------------------------------------------------------
 source xsim.dir/tb/xsim_script.tcl
-# xsim {tb} -autoloadwcfg -tclbatch {/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/scripts/waves.tcl} -runall
+# xsim {tb} -autoloadwcfg -tclbatch {/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/scripts/waves.tcl} -runall
 Vivado Simulator 2018.2
 Time resolution is 1 ps
 WARNING: [Simtcl 6-25] Warning: Both '-runall' and '-tclbatch' were specified. The '-runall' was ignored
-source /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/scripts/waves.tcl
+source /home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/scripts/waves.tcl
 ## set curr_wave [current_wave_config]
 ## if { [string length $curr_wave] == 0 } {
 ##   if { [llength [get_objects]] > 0} {
@@ -48,7 +48,7 @@ WARNING: Simulation object /tb/host_memory_getc/host_memory_getc was not traceab
 Vivado Simulator does not support tracing of automatic variables in Verilog/VHDL subprogram.
 WARNING: Simulation object /tb/host_memory_getc/addr was not traceable in the design for the following reason:
 Vivado Simulator does not support tracing of automatic variables in Verilog/VHDL subprogram.
-add_wave: Time (s): cpu = 00:00:55 ; elapsed = 00:01:02 . Memory (MB): peak = 1871.383 ; gain = 511.996 ; free physical = 117631 ; free virtual = 156022
+add_wave: Time (s): cpu = 00:00:48 ; elapsed = 00:00:53 . Memory (MB): peak = 1871.383 ; gain = 511.996 ; free physical = 26394 ; free virtual = 63785
 ## run 200 us 
 Loading timesets for 'tb.card.u_ddr4_rdimm_A.rcd_enabled.NOT_LRDIMM.u_ddr4_dimm.rank_instances[0].even_ranks.u_ddr4_rank.Micron_model.instance_of_sdram_devices[0].micron_mem_model.u_ddr4_model.LoadTiming' @0
 	Loaded timeset:TS_1875
@@ -931,11 +931,11 @@ Info: [Unisim HPIO_VREF-1] Fabric Tune Value changed to 0011101. Instance: tb.ca
 Info: [Unisim HPIO_VREF-1] Fabric Tune Value changed to 0011101. Instance: tb.card.fpga.sh.DDR4_3.inst.u_ddr4_mem_intfc.u_mig_ddr4_phy.inst.u_ddr_iob.genByte[11].u_ddr_iob_byte.genblk1.genVref.u_hpio_vref
 value of vdip:0
 Writing 0x0000012 to address 0x00000510
-Reading 0xdeaddead from address 0x00000510
+Reading 0xdead0000 from address 0x00000510
 TEST FAILED
-Reading 0x00000000 from address 0x00000504
+Reading 0xaaaaaaaa from address 0x00000504
 TEST FAILED
 value of vled:0
-$finish called at time : 5330 ns : File "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/verif/tests/test_cl_adder.sv" Line 51
+$finish called at time : 5330 ns : File "/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/verif/tests/test_cl_adder.sv" Line 51
 ## quit
-INFO: [Common 17-206] Exiting xsim at Fri Jan 25 00:46:52 2019...
+INFO: [Common 17-206] Exiting xsim at Sun Mar 24 02:09:40 2019...

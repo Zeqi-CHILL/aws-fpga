@@ -1,0 +1,17 @@
+{
+  "devpayProductCodes" : null,
+  "marketplaceProductCodes" : [ "3sppv90yg5o5uyuw20at6ywak" ],
+  "version" : "2017-09-30",
+  "pendingTime" : "2019-03-22T18:06:35Z",
+  "instanceType" : "c4.4xlarge",
+  "imageId" : "ami-0da0d9ed98b33a214",
+  "billingProducts" : null,
+  "instanceId" : "i-00fe6041b26291a44",
+  "accountId" : "722365961357",
+  "availabilityZone" : "us-east-1b",
+  "kernelId" : null,
+  "ramdiskId" : null,
+  "architecture" : "x86_64",
+  "privateIp" : "172.31.43.56",
+  "region" : "us-east-1"
+}

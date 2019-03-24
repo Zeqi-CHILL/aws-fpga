@@ -11,9 +11,13 @@ WARNING: [VRFC 10-278] actual bit length 16 differs from formal bit length 6 for
 WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 1 for port pc_axi_wid [/home/centos/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:457]
 WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 1 for port pc_axi_wid [/home/centos/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:543]
 WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 1 for port pc_axi_wid [/home/centos/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:629]
-WARNING: [VRFC 10-278] actual bit length 2 differs from formal bit length 3 for port s_axi_awprot [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/design/cl_hello_world.sv:118]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port probe1 [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/design/cl_hello_world.sv:343]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port probe4 [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder_debug/design/cl_hello_world.sv:346]
+WARNING: [VRFC 10-278] actual bit length 2 differs from formal bit length 3 for port s_axi_awprot [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo.sv:118]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port din [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/write_to_fifo.v:50]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port dout [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/write_to_fifo.v:53]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port din [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/write_to_fifo.v:62]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port dout [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/write_to_fifo.v:65]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port probe1 [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo.sv:351]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 64 for port probe4 [/home/centos/aws-fpga/hdk/cl/developer_designs/cl_adder/design/cl_fifo.sv:354]
 WARNING: [VRFC 10-1635] non-void function is_ddr_ready called as a task without void casting [/home/centos/aws-fpga/hdk/common/verif/include/sh_dpi_tasks.svh:616]
 WARNING: [VRFC 10-727] function is_ddr_ready has no return value assignment [/home/centos/aws-fpga/hdk/common/verif/include/sh_dpi_tasks.svh:615]
 WARNING: [VRFC 10-727] function write_cfg_info_to_file has no return value assignment [/home/centos/aws-fpga/hdk/common/verif/models/fpga/fpga_ddr.svh:259]
@@ -361,6 +365,10 @@ Compiling module xil_defaultlib.axi_register_slice_v2_1_15_axic_...
 Compiling module axi_infrastructure_v1_1_0.axi_infrastructure_v1_1_0_vector...
 Compiling module xil_defaultlib.axi_register_slice_v2_1_15_axi_r...
 Compiling module xil_defaultlib.axi_register_slice_light
+Compiling module xil_defaultlib.FIFO_Shanquan
+Compiling module xil_defaultlib.adder
+Compiling module xil_defaultlib.user_cl_top_adder
+Compiling module xil_defaultlib.write_to_fifo
 Compiling module xil_defaultlib.ila_0
 Compiling module xil_defaultlib.lut_buffer_v2_0_0_lut_buffer_def...
 Compiling module xil_defaultlib.bd_a493_lut_buffer_0
@@ -371,7 +379,7 @@ Compiling module xil_defaultlib.bd_a493
 Compiling module xil_defaultlib.cl_debug_bridge
 Compiling module xil_defaultlib.vio_0
 Compiling module xil_defaultlib.ila_vio_counter
-Compiling module xil_defaultlib.cl_hello_world
+Compiling module xil_defaultlib.cl_fifo
 Compiling module xil_defaultlib.fpga
 Compiling module xil_defaultlib.card_default
 Compiling module xil_defaultlib.tb

@@ -17,6 +17,31 @@ module write_to_fifo(
     output wire [31:0] hello_world_q
    );
 
+//define wires
+reg fifo_fifotest_to_cl_rd;
+reg  [31:0] fifo_cl_to_fifotest_din;
+reg fifo_cl_to_fifotest_wr;
+
+
+wire fifo_cl_to_fifotest_rd;
+wire fifo_cl_to_fifotest_empty;
+wire fifo_cl_to_fifotest_full;
+wire [31:0] fifo_cl_to_fifotest_dout;
+wire [7:0] fifo_cl_to_fifotest_size;
+
+wire fifo_fifotest_to_cl_wr;
+wire [31:0] fifo_fifotest_to_cl_din;
+wire fifo_fifotest_to_cl_empty;
+wire fifo_fifotest_to_cl_full;
+wire [31:0] fifo_fifotest_to_cl_dout;
+wire [7:0] fifo_fifotest_to_cl_size;
+
+
+
+reg [31:0] hello_world_q_internal;
+wire [31:0] hello_world_q_byte_swapped;
+assign hello_world_q = hello_world_q_internal;
+
 FIFO_Shanquan fifo_cl_to_fifotest_inst(
     .clock (clk_main_a0),
     .reset (~rst_main_n_sync),
@@ -51,31 +76,6 @@ user_cl_top user_cl_top_inst(
     .data_wr (fifo_fifotest_to_cl_wr),
     .data_dout (fifo_fifotest_to_cl_din)
     );
-//define wires
-reg fifo_fifotest_to_cl_rd;
-reg  [31:0] fifo_cl_to_fifotest_din;
-reg fifo_cl_to_fifotest_wr;
-
-
-wire fifo_cl_to_fifotest_rd;
-wire fifo_cl_to_fifotest_empty;
-wire fifo_cl_to_fifotest_full;
-wire [31:0] fifo_cl_to_fifotest_dout;
-wire [7:0] fifo_cl_to_fifotest_size;
-
-wire fifo_fifotest_to_cl_wr;
-wire [31:0] fifo_fifotest_to_cl_din;
-wire fifo_fifotest_to_cl_empty;
-wire fifo_fifotest_to_cl_full;
-wire [31:0] fifo_fifotest_to_cl_dout;
-wire [7:0] fifo_fifotest_to_cl_size;
-
-
-
-reg [31:0] hello_world_q_internal;
-wire [31:0] hello_world_q_byte_swapped;
-assign hello_world_q = hello_world_q_internal;
-
 
 always @(posedge clk_main_a0) begin
     fifo_cl_to_fifotest_wr <= 0;

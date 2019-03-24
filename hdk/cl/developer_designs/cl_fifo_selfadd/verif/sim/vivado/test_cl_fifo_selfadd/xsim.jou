@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# xsim v2018.2_AR71275_op (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Sun Mar 24 05:43:44 2019
+# Process ID: 19800
+# Current directory: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_fifo_selfadd/verif/sim/vivado/test_cl_fifo_selfadd
+# Command line: xsim -log test_cl_fifo_selfadd.log -mode tcl -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_fifo_selfadd/verif/sim/vivado/test_cl_fifo_selfadd/test_cl_fifo_selfadd.log
+# Journal file: /home/centos/aws-fpga/hdk/cl/developer_designs/cl_fifo_selfadd/verif/sim/vivado/test_cl_fifo_selfadd/xsim.jou
+#-----------------------------------------------------------
+source xsim.dir/tb/xsim_script.tcl
+source /home/centos/aws-fpga/hdk/cl/developer_designs/cl_fifo_selfadd/verif/scripts/waves.tcl
