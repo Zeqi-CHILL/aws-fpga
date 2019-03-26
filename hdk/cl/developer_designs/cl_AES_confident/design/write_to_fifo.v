@@ -23,12 +23,14 @@ module write_to_fifo(
    );
 
 //********???*********************
-input wire ack_calling_decryption;
+//input wire ack_calling_decryption;
+//check FIFO_READ_LATENCY is better to set 1 or 0???
 //********???*********************
 
 //--------------------------------------------------
 //define wires
 //--------------------------------------------------
+	//ports for ififo
 	reg [(WRITE_DATA_WIDTH-1):0] ififo_din;
 	reg ififo_injectsbiterr;
 	reg ififo_injectdbiterr;
@@ -56,6 +58,7 @@ input wire ack_calling_decryption;
 	wire ififo_almost_full;
 	wire ififo_almost_empty;
 
+	//ports for ofifo
 	reg [(WRITE_DATA_WIDTH-1):0] ofifo_din;
 	reg ofifo_injectsbiterr;
 	reg ofifo_injectdbiterr;
@@ -85,6 +88,10 @@ input wire ack_calling_decryption;
 	
 	//ports for aes_top_level
 	wire aes_d_vld;
+	wire aes_rst;
+	 
+	//intermidiate ports
+	reg done_bit;
 
 //--------------------------------------------------
 // xpm_fifo_sync: Synchronous FIFO
@@ -102,11 +109,11 @@ input wire ack_calling_decryption;
 	.PROG_EMPTY_THRESH(8),        // DECIMAL
 	.PROG_FULL_THRESH(8),         // DECIMAL
 	.RD_DATA_COUNT_WIDTH(1),      // DECIMAL
-	.READ_DATA_WIDTH(8),          // DECIMAL    //This design reads 16 sets of 8-bit data
+	.READ_DATA_WIDTH(16),          // DECIMAL    //This design reads 16 sets of 8-bit data,key&data 16
 	.READ_MODE("std"),            // String
 	.USE_ADV_FEATURES("0707"),    // String
 	.WAKEUP_TIME(0),              // DECIMAL
-	.WRITE_DATA_WIDTH(8),         // DECIMAL    //This design reads 16 sets of 8-bit data
+	.WRITE_DATA_WIDTH(16),         // DECIMAL    //This design reads 16 sets of 8-bit data,key&data 16
 	.WR_DATA_COUNT_WIDTH(1)       // DECIMAL
 	)
 	input_xpm_fifo_sync_inst (
@@ -131,7 +138,7 @@ input wire ack_calling_decryption;
 	.injectdbiterr(ififo_injectdbiterr), 
 	.injectsbiterr(ififo_injectsbiterr), 
 	.rd_en(ififo_rd_en),
-	.rst(rst_main_n_sync),
+	.rst(~rst_main_n_sync),
 	.sleep(ififo_sleep), 
 	.wr_clk(clk_main_a0),
 	.wr_en(ififo_wr_en) 
@@ -150,11 +157,11 @@ input wire ack_calling_decryption;
 	.PROG_EMPTY_THRESH(8),        // DECIMAL
 	.PROG_FULL_THRESH(8),         // DECIMAL
 	.RD_DATA_COUNT_WIDTH(1),      // DECIMAL
-	.READ_DATA_WIDTH(8),          // DECIMAL    //This design reads 16 sets of 8-bit data
+	.READ_DATA_WIDTH(16),          // DECIMAL    //This design reads 16 sets of 8-bit data
 	.READ_MODE("std"),            // String
 	.USE_ADV_FEATURES("0707"),    // String
 	.WAKEUP_TIME(0),              // DECIMAL
-	.WRITE_DATA_WIDTH(8),         // DECIMAL    //This design reads 16 sets of 8-bit data
+	.WRITE_DATA_WIDTH(16),         // DECIMAL    //This design reads 16 sets of 8-bit data
 	.WR_DATA_COUNT_WIDTH(1)       // DECIMAL
 	)
 	output_xpm_fifo_sync_inst (
@@ -179,7 +186,7 @@ input wire ack_calling_decryption;
 	.injectdbiterr(ofifo_injectdbiterr), 
 	.injectsbiterr(ofifo_injectsbiterr), 
 	.rd_en(ofifo_rd_en),
-	.rst(rst_main_n_sync),
+	.rst(~rst_main_n_sync),
 	.sleep(ofifo_sleep), 
 	.wr_clk(clk_main_a0),
 	.wr_en(ofifo_wr_en) 
@@ -188,22 +195,29 @@ input wire ack_calling_decryption;
 //---------------------------------------------
 // initiate aes module
 //---------------------------------------------
-
-//ports needed
-	//aes_rst
-	//define aes_d_vld
+user_cl_top_AES user_cl_top_AES_init(
+	.clock(clk_main_a0),
+	.rst(aes_rst),
+	.data_empty(ififo_empty),
+	.data_wr(ififo_rd),
+	.data_din(ififo_dout),
+	.data_full(ofifo_full),
+	.data_rd(ofifo_wr),
+	.data_dout(ofifo_din),
+	.data_vld(aes_d_vld)
+);
 
 //---------------------------------------------
 // define states
 //---------------------------------------------
-local param IDLE = 0,
+local param IFIFO_COLLECT_DATA = 0,
 	    INIT_AES = 1,
 	    WAIT_ENCRYPT = 2,
 	    CIPHER_TEXT_READY = 3,
 	    DONE_BIT_FLAG = 4,
 	    SW_READ_FROM_OFIFO = 5;
 
-reg [7:0] state = IDLE;
+reg [7:0] state = IFIFO_COLLECT_DATA;
 
 //---------------------------------------------
 // state machine
@@ -213,13 +227,13 @@ always @ (*)
 	begin
 	if (!rst_main_n_sync)
 		begin
-			next_state <= IDLE;
+			next_state <= IFIFO_COLLECT_DATA;
 		end
 	else begin
 		case(state)
-		IDLE:	if (!ififo_full) 
+		IFIFO_COLLECT_DATA:	if (!ififo_full) 
 			begin
-				next_state <= IDLE;
+				next_state <= IFIFO_COLLECT_DATA;
 			end
 			else if (ififo_full)             //if input-fifo is full, all key&plaintext has been collected
 			begin	
@@ -268,7 +282,7 @@ always @ (*)
 			end
 			else if (ofifo_empty)
 			begin
-				next_state <= IDLE;        //*************go back to idle???*********
+				next_state <= IFIFO_COLLECT_DATA;        //*************go back to IFIFO_COLLECT_DATA???*********
 			end
 		endcase
 	end
@@ -282,7 +296,7 @@ always @ (posedge clk_main_a0)
 	begin
 	if (!rst_main_n_sync)
 		begin
-			state <= IDLE;
+			state <= IFIFO_COLLECT_DATA;
 		end
 	else	begin
 			state <= next_state;
@@ -293,6 +307,75 @@ always @ (posedge clk_main_a0)
 //---------------------------------------------
 //output logic
 //---------------------------------------------
+always @ (posedge clk_main_a0)
+	begin
+	if (!rst_main_n_sync)
+		begin
+		//what signal should be reset???
+		rvalid <= 32'h0000_0000;		
+		rdata <= 32'h0000_0000;
+        	hello_world_q_internal[31:0] <= 32'h0000_0000;		
+		end
+	else begin
+		ififo_wr_en <= 0;       //reset wr flag signal?
+		ififo_rd_en <= 0;
+		ofifo_wr_en <= 0;
+		ofifo_rd_en <= 0;
+
+		case(state)
+		    IFIFO_COLLECT_DATA:
+			ififo_wr_en <= ififo_full? 0:1;
+			if (wready & (wr_addr == `HELLO_WORLD_REG_ADDR ))
+			begin
+				hello_world_q_internal[31:0] <= wdata[31:0];
+			end
+			else if (wready & (wr_addr == `FIFO_ADDR ))
+			begin
+				if (!ififo_full)
+				begin					
+					ififo_din <= wdata;   //wdata[7:0]??	
+				end
+				else begin                    // Hold Value
+        				hello_world_q_internal[31:0] <= hello_world_q_internal[31:0];
+    				end
+			end
+
+		    INIT_AES:
+			aes_rst <= 1;  //reset signal is low sensitive, set 1 means not reset
+			ififo_rd_en <= 1;
+			if (ififo_empty) begin
+			ififo_rd_en <= 0;          //make sense?
+			end
+
+		    WAIT_ENCRYPT:
+			//nothing to do?
+
+		    CIPHER_TEXT_READY:
+			ofifo_wr_en <= ofifo_full? 0:1;
+
+		    DONE_BIT_FLAG:
+			done_bit <= ofifo_full? 1:0;
+			rdata[0] <= done_bit;		//valid? 
+			aes_rst <= 0;	//aes module no longer needed, reset all signal
+
+		    SW_READ_FROM_OFIFO:
+			ofifo_rd_en <= ofifo_empty? 0:1;
+			if (rvalid && rready) begin
+            		rvalid <= 0;
+                	rdata  <= 32'h00000000;
+			end
+			else if (arvalid_q) begin
+				if (araddr_q == `FIFO_ADDR) begin
+				rvalid <= 1;
+				rdata <= ofifo_dout;			
+				end
+			end
+		endcase
+	     end
+	end
+
+assign hello_world_q_byte_swapped[31:0] = {hello_world_q_internal[7:0],   hello_world_q_internal[15:8],
+                                           hello_world_q_internal[23:16], hello_world_q_internal[31:24]};
 
 
 
