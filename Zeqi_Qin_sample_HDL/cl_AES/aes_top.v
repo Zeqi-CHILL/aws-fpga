@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+//**************************************************************************
 //Description:		This is the top level of aes module
 //Instantiated module:	All instantiated files in this module are attached.
 //			1.aes_data_path.v
@@ -8,7 +8,8 @@
 //			5.mux.v
 //			6.parallel_serial_converter.v
 //			7.sbox_case_4.v	
-//-----------------------------------------------------------------------
+//***************************************************************************
+
 module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
     input rst, clk;
     input [7:0] key_in;

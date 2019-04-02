@@ -2,10 +2,12 @@
 //Project: 	cl_AES_128
 //Author:	Zeqi Qin
 //Date:		03/15/2019
-//Midify:	03/26/2019
+//Revision:	03/28/2019
+//Module Name:  write_to_fifo
 //Description:  -This is the wrapper of AES core and FIFO bridge, which can 
 //		 be simulate by the testbench "write_to_fifo_tb.v". 
 //		-A state machine is built to transfer data between FIFO and AES core.
+//Additional Comments:
 //		-Why we need FIFO bridge: The AES core requires 16 sets of 8-bit
 //	 	 key(16*8=128) and 8-bit plaintext(16*8=128) to be feeded in continuous
 //		 clock cycles. Therefore two input-FIFO(one for key, the other for 
@@ -17,8 +19,8 @@
 `define FIFO_ADDR               32'h0000_0510		//here we define the register address where we would write the input data
 
 module write_to_fifo #( 
-parameter FIFO_WIDTH = 8,				//define parameter. for each fifo, each input data is 8-bit 
-parameter FIFO_DEPTH = 16				//define parameter. for each fifo, we need 16 sets of 8-bit 
+parameter FIFO_WIDTH = 8,				//define parameter. For each fifo, each input data is 8-bit 
+parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets of 8-bit 
 )
 (
     	input wire clk_main_a0,
