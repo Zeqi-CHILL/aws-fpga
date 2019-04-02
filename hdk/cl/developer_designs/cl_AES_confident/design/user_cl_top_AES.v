@@ -7,24 +7,26 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-module user_cl_top_AES (
+module user_cl_top_AES #(
+parameter DATA_WIDTH = 8
+)
+(
     input wire clock,
     input wire rst,				//low sensitive
 
     // data inputs from input FIFO 
-    input wire                  data_empty,
+    input wire                  ififo_empty,
     output reg                  data_wr,
     input [DATA_WIDTH-1:0]      data_din,
 
     // data outputs to output FIFO
-    input wire                  data_full,
+    input wire                  ofifo_full,
     output reg                  data_rd,
     output reg [DATA_WIDTH-1:0] data_dout,
-    output reg			data_vld
+    output wire			data_vld
 );
 
 // Parameters
-	parameter DATA_WIDTH = 16;
 
 // define wires
 
@@ -32,6 +34,7 @@ module user_cl_top_AES (
    	reg [7:0] d_in;
    	wire [7:0] d_out;  
 	wire d_vld;
+//	wire data_vld_internal;
 	assign data_vld = d_vld;
 	
 	aes_8_bit aes_8bit_init(
@@ -49,6 +52,7 @@ localparam IDLE=0,
 	   AES_TO_OFIFO=3;
 
 reg [4:0] state = IDLE;
+reg [4:0] state_next;
 reg waiting_for_encrypt = 0;
 
 //---------------------------------------------
@@ -59,40 +63,40 @@ always @ (*)
 	begin
 	if (!rst)
 		begin
-			next_state <= IDLE;	
+			state_next <= IDLE;	
 		end
 	else begin
 		case(state)
 		   IDLE:
-			if (!ififo_empty & !waiting_for_encypt) begin
-				next_state <= IFIFO_TO_AES;			
+			if (!ififo_empty & !waiting_for_encrypt) begin
+				state_next <= IFIFO_TO_AES;			
 			end
 			else begin
-				next_state <= IDLE;
+				state_next <= IDLE;
 			end
 
 		   IFIFO_TO_AES:
 			if (ififo_empty) begin
-				next_state <= WAIT;
+				state_next <= WAIT;
 			end
 			else begin
-				next_state <= IFIFO_TO_AES;
+				state_next <= IFIFO_TO_AES;
 			end
 
 		   WAIT:
 			if (!d_vld) begin
-				next_state <= WAIT;
+				state_next <= WAIT;
 			end
 			else if (d_vld)	begin
-				next_state <= AES_TO_OFIFO;
+				state_next <= AES_TO_OFIFO;
 			end
 
 		   AES_TO_OFIFO:
 			if (!ofifo_full) begin
-				next_state <= AES_TO_OFIFO;
+				state_next <= AES_TO_OFIFO;
 			end
 			else if (ofifo_full) begin
-				next_state <= WAIT;				
+				state_next <= WAIT;				
 			end
 		endcase
 	end
@@ -109,7 +113,7 @@ always @ (posedge clock)
 			state <= IDLE;
 		end
 	else	begin
-			state <= next_state;
+			state <= state_next;
 		end
 	end
 
@@ -127,11 +131,15 @@ always @ (posedge clock)
 		case(state)
 		   IDLE:
 			//do nothing?
+			begin
+			end
 
 		   IFIFO_TO_AES:
+		    begin
 			waiting_for_encrypt <= 1;
 			key_in <= data_din[15:8];
 			d_in   <= data_din[7:0];
+            end
 
 		   WAIT:
 			if (d_vld) begin
@@ -142,10 +150,10 @@ always @ (posedge clock)
 			end
 	
 		   AES_TO_OFIFO:
-			if(!data_full) begin
+			if(!ofifo_full) begin
 			data_dout <= d_out; 
 			end
-			else if (data_full) begin
+			else if (ofifo_full) begin
 			data_dout <= data_dout;
 			end
 		endcase

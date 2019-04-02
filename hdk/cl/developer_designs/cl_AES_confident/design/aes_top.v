@@ -52,8 +52,7 @@ module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
         begin
             case (state)
                 load: 
-                begin
-		    if(cnt ==4'h0)      
+                begin    
                     cnt <= cnt + 4'h1;
                     if (cnt == 4'hf)
                     begin
