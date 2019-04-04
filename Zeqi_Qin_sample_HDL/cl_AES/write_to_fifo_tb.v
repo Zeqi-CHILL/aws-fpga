@@ -17,7 +17,7 @@ module write_to_fifo_tb(
 
     );
     
- 	reg clk_main_a0;
+ 	reg clk_main_a0;						//singals that needed in instantiated test module
 	reg rst_main_n_sync;
 	reg [31:0] wr_addr;
 	reg wready;

@@ -1,50 +1,62 @@
-//***********************************************************************************************
+//****************************************************************************************************************************
 //Project: 	cl_AES_128
 //Author:	Zeqi Qin
 //Date:		03/15/2019
 //Revision:	03/28/2019
 //Module Name:  write_to_fifo
-//Description:  -This is the wrapper of AES core and FIFO bridge, which can 
-//		 be simulate by the testbench "write_to_fifo_tb.v". 
-//		-A state machine is built to transfer data between FIFO and AES core.
+//Description:	
+//		-This is the top level of AES core with FIFO bridge.The functionality is to encrypt
+//		128-bit plaintext with 128-bit key to get 128-bit cipher text. Four modules(three
+//		FIFO and an AES core) are instantiated in this top level.
+//		-A state machine is built to control the data flow between the instantiated four modules.
+//		-This module can be simulated in Vivado by the testbench "write_to_fifo_tb.v".
 //Additional Comments:
+//		The structure of this top level can be simplified as: 
+//		-PartA parameter define
+//		-PartB declare input&output ports
+//		-PartC declare internal wire&reg
+//		-PartD instantiate the first input fifo, which will be used to store key
+//		-PartE instantiate the second input fifo, which will be used to store plaintext
+//		-PartF instantiate the output fifo, which will be used to store ciher text
+//		-PartG instantiate the aes core for encryption
+//		-PartH a state machine to describe the data flow between the above three fifo and the aes core
 //		-Why we need FIFO bridge: The AES core requires 16 sets of 8-bit
 //	 	 key(16*8=128) and 8-bit plaintext(16*8=128) to be feeded in continuous
 //		 clock cycles. Therefore two input-FIFO(one for key, the other for 
 //		 plaintext) will be used to store input data untill we collect all 16 sets
-//		 of them and then feed them to AES core. Samething for the output, an output-FIFO
+//		 of them and then feed them to AES core. Same thing for the output, an output-FIFO
 // 		 will be used to collect all 16sets of cipher text(128-bit) and then read it out.
-//***********************************************************************************************
+//*****************************************************************************************************************************
 
 `define FIFO_ADDR               32'h0000_0510		//here we define the register address where we would write the input data
 
-module write_to_fifo #( 
-parameter FIFO_WIDTH = 8,				//define parameter. For each fifo, each input data is 8-bit 
-parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets of 8-bit 
+module write_to_fifo #( 				//PartA parameter define
+parameter FIFO_WIDTH = 8,				//For each fifo, each input data is 8-bit long
+parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128)
 )
-(
-    	input wire clk_main_a0,
-    	input wire rst_main_n_sync,
-    	input wire [31:0] wr_addr ,
-    	input wire wready,
-    	input wire [31:0] wdata,
-    	input wire rready,
-    	input wire arvalid_q,
-    	input wire [31:0] araddr_q,
-    	input wire [15:0] vled_q,
-    	output reg [1:0] rresp,
-   	output reg rvalid,
-    	output reg [31:0] rdata,
-    	output wire [31:0] hello_world_q
+(							//PartB declare input&output ports
+    	input wire clk_main_a0,				//the main clock(only one clock in this design), 125 MHz
+    	input wire rst_main_n_sync,			//the reset signal 
+    	input wire [31:0] wr_addr ,			//the writing address
+    	input wire wready,				//the write ready signal
+    	input wire [31:0] wdata,			//the input data
+    	input wire rready,				//the read ready signal
+    	input wire arvalid_q,				//the read request valid signal
+    	input wire [31:0] araddr_q,			//the read request address 
+    	input wire [15:0] vled_q,			//the virtual led for future use
+    	output reg [1:0] rresp,				//the output reset signal
+   	output reg rvalid,				//the output valid signal
+    	output reg [31:0] rdata,			//the output data
+    	output wire [31:0] hello_world_q		//a port for logic check if need
    );
 
 
 //-------------------------------------------------
-//declare wire&reg
+// PartC declare internal wire&reg
 //-------------------------------------------------
 
-    	//ififo_key
-	reg   [(FIFO_WIDTH-1):0] ififo_key_din;
+    	//ififo_key					//signals in ififo_key that needed in instantiated connection or state transition
+	reg   [(FIFO_WIDTH-1):0] ififo_key_din;			
 	reg   ififo_key_wr_en;
 	reg   ififo_key_rd_en;
 	wire  [(FIFO_WIDTH-1):0] ififo_key_dout;
@@ -53,7 +65,7 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	reg   ififo_key_input_vld;
 	wire  ififo_key_data_valid;
 
-    	//ififo_plaintext
+    	//ififo_plaintext				//signals in ififo_plaintext that needed in instantiated connection or state transition
 	reg   [(FIFO_WIDTH-1):0] ififo_plaintext_din;
 	reg   ififo_plaintext_wr_en;
 	reg   ififo_plaintext_rd_en;
@@ -63,7 +75,7 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	reg   ififo_plaintext_input_vld;
 	wire  ififo_plaintext_data_valid;
 	
-	//ofifo
+	//ofifo						//signals in output fifo that needed in instantiated connection or state transition
 	wire  [(FIFO_WIDTH-1):0] ofifo_din;
 	reg   ofifo_wr_en;
 	reg   ofifo_rd_en;
@@ -72,13 +84,13 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	wire  ofifo_empty;
 	wire  ofifo_data_valid;
 
-	//aes_module
+	//aes_module					//signals in aes core that needed in instantiated connection or state transition
 	wire  aes_d_vld;
 	reg   aes_rst;
 	reg   go_bit;
 	reg   done_bit;
 	    
-	//all the next
+	//all the next					//signals will be driven in combinational logic in state machine and will be updated in sequential logic
 	reg  ififo_key_wr_en_next;        
         reg  ififo_key_rd_en_next;    
         reg  [(FIFO_WIDTH-1):0] ififo_key_din_next;               
@@ -106,12 +118,16 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
         reg  [31:0] hello_world_q_internal;
         wire [31:0] hello_world_q_internal_next;
 
-//--------------------------------------------------
+//------------------------------------------------------------------------
 // xpm_fifo_sync: Synchronous FIFO
 // Xilinx Parameterized Macro, version 2018.3
-//--------------------------------------------------
-// instantiate input fifo_key
-//--------------------------------------------------
+//------------------------------------------------------------------------
+// PartD instantiate input fifo_key
+// Funtionality:collect 16 sets of 8-bit key and wait for 
+//		read enable signal to feed the key into aes
+// Highlight I/0:input "ififo_key_din" will receive key
+//		 outut "ififo_key_dout" will send the collected key to aes 		
+//-----------------------------------------------------------------------
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -141,9 +157,13 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	.wr_en(ififo_key_wr_en) 
 	);
 
-//--------------------------------------------------
-// instantiate input fifo_plaintext
-//--------------------------------------------------
+//------------------------------------------------------------------
+// PartE instantiate input fifo_plaintext
+// Funtionality:collect 16 sets of 8-bit plaintext and wait for 
+//		read enable signal to feed the it into aes
+// Highlight I/0:input "ififo_plaintext_din" will receive plaintext
+//		 outut "ififo_plaintext_dout" will send the collected plaintext to aes 
+//------------------------------------------------------------------
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -173,9 +193,12 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	.wr_en(ififo_plaintext_wr_en) 
 	);
 
-//--------------------------------------------------
-// instantiate output fifo
-//--------------------------------------------------
+//------------------------------------------------------------------------
+// PartF instantiate output fifo
+// Functionality:wait the read enable signal to read cipher text from aes
+// Highlight I/0:input "ofifo_din" will receive the cipher text from aes
+//		 outut "ofifo_dout" will collecte the cipher text and read it out
+//------------------------------------------------------------------------
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -205,9 +228,13 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	.wr_en(ofifo_wr_en) 
 	);
 
-//---------------------------------------------
-// initiate aes module
-//---------------------------------------------
+//----------------------------------------------------------------------------
+// PartG initiate aes module
+// Highlight I/0: input "key_in" receive key
+//	          input "d_in"   receive plaintext
+//		  output "d_vld" indicates ciphertext have been gernerated
+//		  output "d_out" will send the ciphter text to output fifo
+//----------------------------------------------------------------------------
 
 	aes_8_bit aes_8bit_init(
 	.rst(~aes_rst),				    //This module is designed as low sensitive reset, while aes core is high sensitive reset, so that reverse the reset signal in the instantiation
@@ -218,11 +245,11 @@ parameter FIFO_DEPTH = 16				//define parameter. For each fifo, we need 16 sets 
 	.d_vld(aes_d_vld)   		 	    //d_out is available to read when d_vld=1
 	);
 
-//---------------------------------------------
-// state machine
-//---------------------------------------------
+//----------------------------------------------------------------
+// PartH state machine
+//----------------------------------------------------------------
 // define states
-//---------------------------------------------
+//----------------------------------------------------------------
 localparam  IFIFO_COLLECT_KEY = 0,		    //state: FIFO1 is collecting key			
             IFIFO_COLLECT_PLAINTEXT = 1,	    //state: FIFO2 is collecting plaintext
             INIT_AES = 2,			    //state: all 128 key&plaintext are collected, release the reset signal in aes core
@@ -252,7 +279,7 @@ always @ (*)
 
 	     case(state)
 	     
-		IFIFO_COLLECT_KEY:
+		IFIFO_COLLECT_KEY:					 //state: FIFO1 is collecting key	
 		begin
 		    if(ififo_key_input_vld)	    			
             	       ififo_key_wr_en_next = ~ififo_key_full;                 
@@ -279,7 +306,7 @@ always @ (*)
 		         end	
 		     end
  
- 		IFIFO_COLLECT_PLAINTEXT:
+ 		IFIFO_COLLECT_PLAINTEXT:				//state: FIFO2 is collecting plaintext
 		begin	
 		   if(ififo_plaintext_input_vld)	         
             	      ififo_plaintext_wr_en_next = ~ififo_plaintext_full;          
@@ -307,7 +334,7 @@ always @ (*)
 		    end
 
             
-		 INIT_AES: 
+		 INIT_AES: 						//state: all 128 key&plaintext are collected, release the reset signal in aes core
 		 begin
 		    if (ififo_key_rd_en & ififo_plaintext_rd_en)
 			go_bit  = 1'b1;		           		//go_bit to flag that key&plaintext are started to feed in aes core
@@ -340,7 +367,7 @@ always @ (*)
 	    	  end
 	    	
 		 
-	          WAIT_ENCRYPT: 
+	          WAIT_ENCRYPT: 					//state: wait the aes core do the encryption
 		  begin 
                    	go_bit  = 1'b1;	
                      if (!aes_d_vld)					//keep the state in wait for ciphertext calculation if d_vld=0
@@ -379,7 +406,7 @@ always @ (*)
                 end
             
             
-	    	DONE_BIT_FLAG: 
+	    	DONE_BIT_FLAG: 						//state: ciphertext are ready when d_vld in aes core is equal to 1
 	    	begin
 			done_bit = ofifo_full;
 			rdata[0] = done_bit;				//ciphertext valid, will use this signal to invoke other function in the future
@@ -395,9 +422,9 @@ always @ (*)
 //---------------------------------------------
 always @ (posedge clk_main_a0)
 	begin
-	if (!rst_main_n_sync)
+	if (!rst_main_n_sync)						//low sensitive reset
 	     begin
-		     state <= IFIFO_COLLECT_KEY;			//reset settings
+		     state <= IFIFO_COLLECT_KEY;			//reset all signals
 	     	     ififo_key_wr_en            <= 	1'b0;
 		     ififo_key_rd_en            <= 	1'b0;     
 		     ififo_key_input_vld        <= 	1'b0;  
@@ -411,8 +438,8 @@ always @ (posedge clk_main_a0)
 		     aes_rst                    <= 	1'b0;                 
 		     rvalid                     <= 	1'b0;  
 	     end
-	else begin
-		     state <= state_next;				//update the signal at posedge clock
+	else begin							//update signals at posedge clock
+		     state 			<=      state_next;	
 		     ififo_key_wr_en            <=   	ififo_key_wr_en_next;
 		     ififo_key_rd_en            <=   	ififo_key_rd_en_next;
 		     ififo_key_din              <=   	ififo_key_din_next;

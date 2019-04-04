@@ -24,7 +24,7 @@
 `define FPGA_LESS_RST
 `define FIFO_ADDR               32'h0000_0510
 `define PLUS_ONE_ADDR           32'h0000_0508
-`define TIMES_TWO_ADDR			32'h0000_050C
+`define TIMES_TWO_ADDR		32'h0000_050C
 
 // Uncomment to disable Virtual JTAG
 //`define DISABLE_VJTAG_DEBUG

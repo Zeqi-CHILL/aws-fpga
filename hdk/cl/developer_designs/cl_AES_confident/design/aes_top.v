@@ -1,3 +1,15 @@
+//**************************************************************************
+//Description:		This is the top level of aes module
+//Instantiated module:	All instantiated files in this module are attached.
+//			1.aes_data_path.v
+//			2.byte_permutation_unit.v
+//			3.key_expansion.v
+//			4.mixcolomn.v
+//			5.mux.v
+//			6.parallel_serial_converter.v
+//			7.sbox_case_4.v	
+//***************************************************************************
+
 module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
     input rst, clk;
     input [7:0] key_in;
@@ -179,13 +191,13 @@ module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
     always @ (posedge clk)
     begin
         if (rst == 1'b1 || cnt == 4'hf || round_cnt_w == 4'ha)
-        begin
-            round_cnt <= 6'h00;
-        end
+		begin
+		    round_cnt <= 6'h00;
+		end
         else
-        begin
-            round_cnt <= round_cnt + 6'h01;
-        end
+		begin
+		    round_cnt <= round_cnt + 6'h01;
+		end
     end
 
 
@@ -224,47 +236,47 @@ module aes_8_bit (rst, clk, key_in, d_in, d_out, d_vld);
     always @ (posedge clk)
     begin
         if (round_cnt[1:0] == 2'b11)
-        begin
-            mc_en_reg <= 8'h00;
-        end
+		begin
+		    mc_en_reg <= 8'h00;
+		end
         else
-        begin
-            mc_en_reg <= 8'hFF;
-        end
+		begin
+		    mc_en_reg <= 8'hFF;
+		end
     end
 
     //parelle load
     always @ (posedge clk)
     begin
         if (state == load)
-        begin
-            pld_reg <= 1'b0;
-        end
+		begin
+		    pld_reg <= 1'b0;
+		end
         else
         begin
             if (round_cnt[1:0] == 2'b11)
-            begin
-                pld_reg <= 1'b1;
-            end
+		    begin
+		        pld_reg <= 1'b1;
+		    end
             else
-            begin
-                pld_reg <= 1'b0;
-            end
+		    begin
+		        pld_reg <= 1'b0;
+		    end
         end
     end
 
     always @(posedge clk)
     begin
         if (rst == 1'b1)
-        begin
-            d_vld <= 1'b0;
-        end
+		begin
+		    d_vld <= 1'b0;
+		end
         else
         begin
             if (round_cnt == 8'h90)
-            begin
-                d_vld <= 1'b1;
-            end
+		    begin
+		        d_vld <= 1'b1;
+		    end
         end
     end
 endmodule
