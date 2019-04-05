@@ -22,7 +22,7 @@ module cl_adder_nofifo
 
 `include "cl_common_defines.vh"      // CL Defines for all examples
 `include "cl_id_defines.vh"          // Defines for ID0 and ID1 (PCI ID's)
-`include "cl_fifo_defines.vh" // CL Defines for cl_hello_world
+`include "cl_adder_nofifo_defines.vh" // CL Defines for cl_hello_world
 
 logic rst_main_n_sync;
 

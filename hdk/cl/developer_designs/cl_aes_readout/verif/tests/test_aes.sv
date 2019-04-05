@@ -42,8 +42,16 @@ logic [15:0] vled_value;
       $display ("Writing KEY:0x0000_0000 to address 0x%x", `FIFO_ADDR);
       tb.poke(.addr(`FIFO_ADDR), .data(32'h0000_0000), .id(AXI_ID), .size(DataSize::UINT16), .intf(AxiPort::PORT_OCL)); // write register
 
+      $display ("THIS SHOULD BE COMMENT OUT AFTER TEST");
+       tb.peek(.addr(`FIFO_ADDR), .data(rdata), .id(AXI_ID), .size(DataSize::UINT16), .intf(AxiPort::PORT_OCL));         // start read & write
+      $display ("Reading 0x%x from address 0x%x", rdata, `FIFO_ADDR);
+
       $display ("Writing KEY:0x0000_0001 to address 0x%x", `FIFO_ADDR);
       tb.poke(.addr(`FIFO_ADDR), .data(32'h0000_0001), .id(AXI_ID), .size(DataSize::UINT16), .intf(AxiPort::PORT_OCL)); // write register
+
+      $display ("THIS SHOULD BE COMMENT OUT AFTER TEST");
+       tb.peek(.addr(`FIFO_ADDR), .data(rdata), .id(AXI_ID), .size(DataSize::UINT16), .intf(AxiPort::PORT_OCL));         // start read & write
+      $display ("Reading 0x%x from address 0x%x", rdata, `FIFO_ADDR);
 
       $display ("Writing KEY:0x0000_0002 to address 0x%x", `FIFO_ADDR);
       tb.poke(.addr(`FIFO_ADDR), .data(32'h0000_0002), .id(AXI_ID), .size(DataSize::UINT16), .intf(AxiPort::PORT_OCL)); // write register

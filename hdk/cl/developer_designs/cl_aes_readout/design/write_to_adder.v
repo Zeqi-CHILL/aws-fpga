@@ -47,7 +47,6 @@ always @(posedge clk_main_a0) begin
     else if (wready & (wr_addr == `FIFO_ADDR)) begin     //write data to CL
 		add_in1 <= wdata[3:0];
 		add_in2 <= wdata[7:4];	
-        end
     end
     else begin                                		  // Hold Value
         hello_world_q_internal[31:0] <= hello_world_q_internal[31:0];
