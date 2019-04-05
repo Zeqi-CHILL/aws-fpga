@@ -10,20 +10,20 @@
             <top_module name="proj_package" />
             <top_module name="tb" />
             <top_module name="tb_type_defines_pkg" />
-            <top_module name="test_cl_fifo_selfadd" />
+            <top_module name="test_null" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="4944000000fs"></ZoomStartTime>
-      <ZoomEndTime time="5422454547fs"></ZoomEndTime>
-      <Cursor1Time time="5156000000fs"></Cursor1Time>
+      <ZoomStartTime time="4937500000fs"></ZoomStartTime>
+      <ZoomEndTime time="5413500001fs"></ZoomEndTime>
+      <Cursor1Time time="5140000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="134"></ValueColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="25" />
+   <WVObjectSize size="17" />
    <wvobject type="logic" fp_name="/tb/card/fpga/CL/clk_main_a0">
       <obj_property name="ElementShortName">clk_main_a0</obj_property>
       <obj_property name="ObjectShortName">clk_main_a0</obj_property>
@@ -60,13 +60,13 @@
       <obj_property name="ElementShortName">bready</obj_property>
       <obj_property name="ObjectShortName">bready</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/tb/card/fpga/CL/awready">
-      <obj_property name="ElementShortName">awready</obj_property>
-      <obj_property name="ObjectShortName">awready</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/tb/card/fpga/CL/awvalid">
       <obj_property name="ElementShortName">awvalid</obj_property>
       <obj_property name="ObjectShortName">awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/card/fpga/CL/awready">
+      <obj_property name="ElementShortName">awready</obj_property>
+      <obj_property name="ObjectShortName">awready</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/tb/card/fpga/CL/arvalid">
       <obj_property name="ElementShortName">arvalid</obj_property>
@@ -91,37 +91,5 @@
    <wvobject type="array" fp_name="/tb/card/fpga/CL/rresp">
       <obj_property name="ElementShortName">rresp[1:0]</obj_property>
       <obj_property name="ObjectShortName">rresp[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/wr">
-      <obj_property name="ElementShortName">wr</obj_property>
-      <obj_property name="ObjectShortName">wr</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/din">
-      <obj_property name="ElementShortName">din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">din[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/dout">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/empty">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/full">
-      <obj_property name="ElementShortName">full</obj_property>
-      <obj_property name="ObjectShortName">full</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/fifo_cl_to_fifotest_inst/wr_succ">
-      <obj_property name="ElementShortName">wr_succ[3:0]</obj_property>
-      <obj_property name="ObjectShortName">wr_succ[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/tb/card/fpga/CL/write_to_fifo_inst/hello_world_q">
-      <obj_property name="ElementShortName">hello_world_q[31:0]</obj_property>
-      <obj_property name="ObjectShortName">hello_world_q[31:0]</obj_property>
    </wvobject>
 </wave_config>

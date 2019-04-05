@@ -112,6 +112,8 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
         reg  done_bit_next;                 
         reg  aes_rst_next;    
         reg  rvalid_next;   
+	reg  arvalid_q_next;
+	reg  rresp_next;
 
 	//I define a hello_world_register to easy check the logic if need
         wire [31:0] hello_world_q_byte_swapped;
@@ -276,20 +278,22 @@ always @ (*)
              done_bit_next                = 1'b0;
              aes_rst_next                 = 1'b0;              
              rvalid_next                  = 1'b0;	
+	     rresp_next                   = 1'b0;
 
 	     case(state)
 	     
 		IFIFO_COLLECT_KEY:					 //state: FIFO1 is collecting key	
 		begin
-		    if(ififo_key_input_vld)	    			
-            	       ififo_key_wr_en_next = ~ififo_key_full;                 
-            	    if (wready & (wr_addr == `FIFO_ADDR ))
+//		    if(ififo_key_input_vld)	    			
+//            	       ififo_key_wr_en_next = ~ififo_key_full;                 
+		       ififo_key_wr_en_next = 1'b0;  
+          	    if (wready & (wr_addr == `FIFO_ADDR ))
 			begin
 			   if (!ififo_key_full)				//write the key into fifo_key
                     	   begin			   		
 			        ififo_key_din_next = wdata;   		
-			        ififo_key_input_vld_next = 1'b1;
-			        ififo_key_wr_en_next = 1'b0;
+//			        ififo_key_input_vld_next = 1'b1;
+			        ififo_key_wr_en_next = 1'b1;
                     	   end
 		       	   else begin					//Hold value in hello_register to aviod latch
         				hello_world_q_internal[31:0] = hello_world_q_internal[31:0];	
@@ -308,15 +312,16 @@ always @ (*)
  
  		IFIFO_COLLECT_PLAINTEXT:				//state: FIFO2 is collecting plaintext
 		begin	
-		   if(ififo_plaintext_input_vld)	         
-            	      ififo_plaintext_wr_en_next = ~ififo_plaintext_full;          
-            	   if (wready & (wr_addr == `FIFO_ADDR ))
+//		   if(ififo_plaintext_input_vld)	         
+//            	      ififo_plaintext_wr_en_next = ~ififo_plaintext_full;          
+		      ififo_plaintext_wr_en_next = 1'b0;  
+          	   if (wready & (wr_addr == `FIFO_ADDR ))
 			begin
                     	if (!ififo_plaintext_full)
 		            begin
 		                ififo_plaintext_din_next = wdata;	//write the plaintext into fifo_plaintext
-		                ififo_plaintext_input_vld_next = 1'b1;
-		                ififo_plaintext_wr_en_next = 1'b0;
+//		                ififo_plaintext_input_vld_next = 1'b1;
+		                ififo_plaintext_wr_en_next = 1'b1;
 		            end
 			else begin                   			// Hold Value to avoid latch
         				hello_world_q_internal[31:0] = hello_world_q_internal[31:0];
@@ -411,13 +416,25 @@ always @ (*)
                     done_bit = ofifo_full;
  //                 rdata[0] = done_bit;				//ciphertext valid, will use this signal to invoke other function in the future
                     aes_rst = 0;					//aes module no longer needed, reset all signal
-                    ofifo_rd_en_next = ~ofifo_empty;     		//enable read operation to read the ciphertext until output fifo is empty
-                    if(ofifo_rd_en) begin
-                        rdata = ofifo_dout;
-                    end
-                    else if (ofifo_empty) begin
-                        ofifo_rd_en_next = 1'b0;
-                    end
+                    ofifo_rd_en_next = 1'b0;     		//enable read operation to read the ciphertext until output fifo is empty
+			if (rvalid && rready)
+			   begin
+			      rvalid = 0;
+			      rdata  = 0;
+			      rresp  = 0;
+			   end
+			else if (arvalid_q)
+			   begin
+				rvalid = 1;
+				rresp  = 0;
+				if(araddr_q == `FIFO_ADDR) begin
+						ofifo_rd_en_next = 1'b1;
+				        	rdata = ofifo_dout;
+				end
+				    else if (ofifo_empty) begin
+				        ofifo_rd_en_next = 1'b0;
+				    end
+			   end
                 end
 		endcase
 	end
