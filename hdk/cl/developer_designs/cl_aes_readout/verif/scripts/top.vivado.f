@@ -40,7 +40,6 @@
 -include ${HDK_SHELL_DESIGN_DIR}/ip/axi_register_slice_light/hdl
 
 ${CL_ROOT}/../common/design/cl_common_defines.vh
-${CL_ROOT}/design/cl_hello_world_defines.vh
 ${HDK_SHELL_DESIGN_DIR}/ip/ila_vio_counter/sim/ila_vio_counter.v
 ${HDK_SHELL_DESIGN_DIR}/ip/ila_0/sim/ila_0.v
 ${HDK_SHELL_DESIGN_DIR}/ip/cl_debug_bridge/bd_0/sim/bd_a493.v
@@ -59,11 +58,18 @@ ${HDK_SHELL_DESIGN_DIR}/ip/axi_register_slice_light/hdl/axi_infrastructure_v1_1_
 ${HDK_SHELL_DESIGN_DIR}/ip/axi_clock_converter_0/hdl/axi_clock_converter_v2_1_vl_rfs.v
 ${HDK_SHELL_DESIGN_DIR}/ip/axi_clock_converter_0/hdl/fifo_generator_v13_2_rfs.v
 ${SH_LIB_DIR}/../ip/axi_clock_converter_0/sim/axi_clock_converter_0.v
-${CL_ROOT}/design/cl_adder_nofifo.sv
-${CL_ROOT}/design/cl_adder_nofifo_defines.vh
+${CL_ROOT}/design/cl_aes.sv
+${CL_ROOT}/design/cl_aes_defines.vh
 ${CL_ROOT}/design/cl_id_defines.vh
-${CL_ROOT}/design/write_to_adder.v
-${CL_ROOT}/design/adder.v
+${CL_ROOT}/design/write_to_fifo.v
+${CL_ROOT}/design/aes_top.v
+${CL_ROOT}/design/aes_data_path.v
+${CL_ROOT}/design/byte_permutation_unit.v
+${CL_ROOT}/design/key_expansion.v
+${CL_ROOT}/design/mixcolumn.v
+${CL_ROOT}/design/mux.v
+${CL_ROOT}/design/parallel_serial_converter.v
+${CL_ROOT}/design/sbox_case_4.v
 
 -f ${HDK_COMMON_DIR}/verif/tb/filelists/tb.${SIMULATOR}.f
 

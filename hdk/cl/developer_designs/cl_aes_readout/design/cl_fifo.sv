@@ -13,16 +13,16 @@
 // implied. See the License for the specific language governing permissions and
 // limitations under the License.
 
-module cl_adder_nofifo
+module cl_fifo
 
 (
-   `include "cl_ports.vh" // Fixed port definition
+   `include "cl_ports.vh" 	     // Fixed port definition
 
 );
 
 `include "cl_common_defines.vh"      // CL Defines for all examples
 `include "cl_id_defines.vh"          // Defines for ID0 and ID1 (PCI ID's)
-`include "cl_adder_nofifo_defines.vh" // CL Defines for cl_hello_world
+`include "cl_fifo_defines.vh" 	     // CL Defines for cl_fifo
 
 logic rst_main_n_sync;
 
@@ -268,7 +268,7 @@ always_ff @(posedge clk_main_a0)
 //-------------------------------------------------
 // When read it, returns the byte-flipped value.
 
-write_to_adder write_to_adder_inst(
+write_to_fifo write_to_fifo_inst(
   .clk_main_a0 (clk_main_a0),
   .rst_main_n_sync (rst_main_n_sync),
   .wr_addr (wr_addr),
