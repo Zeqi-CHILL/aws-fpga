@@ -17,7 +17,7 @@
 `define CL_fifo_DEFINES
 
 //Put module name of the CL design here.  This is used to instantiate in top.sv
-`define CL_NAME cl_adder_nofifo
+`define CL_NAME cl_aes
 
 //Highly recommeneded.  For lib FIFO block, uses less async reset (take advantage of
 // FPGA flop init capability).  This will help with routing resources.

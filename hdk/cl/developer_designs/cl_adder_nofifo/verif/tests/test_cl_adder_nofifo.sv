@@ -1,4 +1,4 @@
-module test_cl_adder();
+module test_cl_adder_nofifo();
 
 import tb_type_defines_pkg::*;
 `include "cl_common_defines.vh" // CL Defines with register addresses

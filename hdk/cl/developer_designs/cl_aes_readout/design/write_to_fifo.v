@@ -55,6 +55,11 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 // PartC declare internal wire&reg
 //-------------------------------------------------
 
+//COMMENT OUR AFTER TEST
+	wire ififo_key_size;
+	wire ififo_plaintext_size;
+	wire ofifo_size;
+
     	//ififo_key					//signals in ififo_key that needed in instantiated connection or state transition
 	reg   [(FIFO_WIDTH-1):0] ififo_key_din;			
 	reg   ififo_key_wr_en;
@@ -130,6 +135,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 // Highlight I/0:input "ififo_key_din" will receive key
 //		 outut "ififo_key_dout" will send the collected key to aes 		
 //-----------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -159,6 +165,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.wr_en(ififo_key_wr_en) 
 	);
 
+
 //------------------------------------------------------------------
 // PartE instantiate input fifo_plaintext
 // Funtionality:collect 16 sets of 8-bit plaintext and wait for 
@@ -166,6 +173,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 // Highlight I/0:input "ififo_plaintext_din" will receive plaintext
 //		 outut "ififo_plaintext_dout" will send the collected plaintext to aes 
 //------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -195,12 +203,14 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.wr_en(ififo_plaintext_wr_en) 
 	);
 
+
 //------------------------------------------------------------------------
 // PartF instantiate output fifo
 // Functionality:wait the read enable signal to read cipher text from aes
 // Highlight I/0:input "ofifo_din" will receive the cipher text from aes
 //		 outut "ofifo_dout" will collecte the cipher text and read it out
 //------------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -247,6 +257,16 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.d_vld(aes_d_vld)   		 	    //d_out is available to read when d_vld=1
 	);
 
+/*
+adder adder_inst(
+	.clock (clk_main_a0),
+	.reset (rst_main_n_sync),
+	.add_in1 (ififo_key_dout),
+	.add_in2 (ififo_plaintext_dout),
+	.add_out (ofifo_din),
+	.d_vld(aes_d_vld)
+	);
+*/
 //----------------------------------------------------------------
 // PartH state machine
 //----------------------------------------------------------------

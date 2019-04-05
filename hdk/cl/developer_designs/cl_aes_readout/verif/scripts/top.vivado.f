@@ -70,6 +70,8 @@ ${CL_ROOT}/design/mixcolumn.v
 ${CL_ROOT}/design/mux.v
 ${CL_ROOT}/design/parallel_serial_converter.v
 ${CL_ROOT}/design/sbox_case_4.v
+${CL_ROOT}/design/adder.v
+${CL_ROOT}/design/fifo_shanquan.v
 
 -f ${HDK_COMMON_DIR}/verif/tb/filelists/tb.${SIMULATOR}.f
 
