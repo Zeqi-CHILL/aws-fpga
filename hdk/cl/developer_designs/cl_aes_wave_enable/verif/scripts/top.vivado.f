@@ -69,6 +69,11 @@ ${CL_ROOT}/design/mixcolumn.v
 ${CL_ROOT}/design/mux.v
 ${CL_ROOT}/design/parallel_serial_converter.v
 ${CL_ROOT}/design/sbox_case_4.v
+${CL_ROOT}/design/fifo_shanquan.v
+${CL_ROOT}/design/cl_adder_nofifo.sv
+${CL_ROOT}/design/cl_adder_nofifo_defines.vh
+${CL_ROOT}/design/write_to_adder.v
+${CL_ROOT}/design/adder.v
 
 -f ${HDK_COMMON_DIR}/verif/tb/filelists/tb.${SIMULATOR}.f
 

@@ -237,7 +237,7 @@ always_ff @(posedge clk_main_a0)
       araddr_q  <= arvalid ? araddr : araddr_q;
    end
 
-assign arready = !arvalid_q && !rvalid;
+//assign arready = !arvalid_q && !rvalid;
 
 // Read Response
 /*
@@ -277,7 +277,7 @@ write_to_fifo write_to_fifo_inst(
   .rready (rready),
 
   .arvalid_q (arvalid_q),
-
+  .arready (arready),
   .araddr_q (araddr_q),
   .vled_q (vled_q),
 

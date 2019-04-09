@@ -42,6 +42,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
     	input wire [31:0] wdata,			//the input data
     	input wire rready,				//the read ready signal
     	input wire arvalid_q,				//the read request valid signal
+	output reg arready,
     	input wire [31:0] araddr_q,			//the read request address 
     	input wire [15:0] vled_q,			//the virtual led for future use
     	output reg [1:0] rresp,				//the output reset signal
@@ -50,6 +51,8 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
     	output wire [31:0] hello_world_q		//a port for logic check if need
    );
 
+//parameter FIFO_WIDTH = 8;			//For each fifo, each input data is 8-bit long
+//parameter FIFO_DEPTH = 16;				//For each fifo, we need 16 sets of 8-bit (16*8=128)
 
 //-------------------------------------------------
 // PartC declare internal wire&reg
@@ -64,6 +67,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	wire  ififo_key_empty;
 	reg   ififo_key_input_vld;
 	wire  ififo_key_data_valid;
+
 
     	//ififo_plaintext				//signals in ififo_plaintext that needed in instantiated connection or state transition
 	reg   [(FIFO_WIDTH-1):0] ififo_plaintext_din;
@@ -112,11 +116,22 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
         reg  done_bit_next;                 
         reg  aes_rst_next;    
         reg  rvalid_next;   
+	reg  arvalid_q_next;
+	reg  rresp_next;
+	reg  arready_next;
+	reg [31:0]  rdata_next;
 
 	//I define a hello_world_register to easy check the logic if need
         wire [31:0] hello_world_q_byte_swapped;
         reg  [31:0] hello_world_q_internal;
         wire [31:0] hello_world_q_internal_next;
+
+	wire ififo_key_size;
+	wire ififo_plaintezt_size;
+	wire ofifo_size;
+
+//Read request logic?
+//assign arready = arvalid_q ^ rvalid;
 
 //------------------------------------------------------------------------
 // xpm_fifo_sync: Synchronous FIFO
@@ -128,6 +143,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 // Highlight I/0:input "ififo_key_din" will receive key
 //		 outut "ififo_key_dout" will send the collected key to aes 		
 //-----------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -157,6 +173,19 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.wr_en(ififo_key_wr_en) 
 	);
 
+/*
+FIFO_Shanquan fifo_key_inst(
+    .clock (clk_main_a0),
+    .reset (~rst_main_n_sync),
+    .wr (ififo_key_wr_en),
+    .rd (ififo_key_rd_en),
+    .din (ififo_key_din),
+    .empty (ififo_key_empty),
+    .full (ififo_key_full),
+    .dout (ififo_key_dout),
+    .size (ififo_key_size)// debug
+    );
+*/
 //------------------------------------------------------------------
 // PartE instantiate input fifo_plaintext
 // Funtionality:collect 16 sets of 8-bit plaintext and wait for 
@@ -164,6 +193,7 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 // Highlight I/0:input "ififo_plaintext_din" will receive plaintext
 //		 outut "ififo_plaintext_dout" will send the collected plaintext to aes 
 //------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -193,12 +223,26 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.wr_en(ififo_plaintext_wr_en) 
 	);
 
+/*
+FIFO_Shanquan fifo_plaintext_inst(
+    .clock (clk_main_a0),
+    .reset (~rst_main_n_sync),
+    .wr (ififo_plaintext_wr_en),
+    .rd (ififo_plaintext_rd_en),
+    .din (ififo_plaintext_din),
+    .empty (ififo_plaintext_empty),
+    .full (ififo_plaintext_full),
+    .dout (ififo_plaintext_dout),
+    .size (ififo_plaintext_size)// debug
+    );
+*/
 //------------------------------------------------------------------------
 // PartF instantiate output fifo
 // Functionality:wait the read enable signal to read cipher text from aes
 // Highlight I/0:input "ofifo_din" will receive the cipher text from aes
 //		 outut "ofifo_dout" will collecte the cipher text and read it out
 //------------------------------------------------------------------------
+
 	xpm_fifo_sync #(
 	.DOUT_RESET_VALUE("0"),	      // String
 	.ECC_MODE("no_ecc"),	      // String
@@ -228,6 +272,19 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	.wr_en(ofifo_wr_en) 
 	);
 
+/*
+FIFO_Shanquan output_fifo_inst(
+    .clock (clk_main_a0),
+    .reset (~rst_main_n_sync),
+    .wr (ofifo_wr_en),
+    .rd (ofifo_rd_en),
+    .din (ofifo_din),
+    .empty (ofifo_empty),
+    .full (ofifo_full),
+    .dout (ofifo_dout),
+    .size (ofifo_size)// debug
+    );
+*/
 //----------------------------------------------------------------------------
 // PartG initiate aes module
 // Highlight I/0: input "key_in" receive key
@@ -276,15 +333,19 @@ always @ (*)
              done_bit_next                = 1'b0;
              aes_rst_next                 = 1'b0;              
              rvalid_next                  = 1'b0;	
+	     rresp_next                   = 1'b0;
+	     arready_next		= 1'b0;
+	     rdata_next  = 32'h0;
+			  
 
 	     case(state)
 	     
 		IFIFO_COLLECT_KEY:					 //state: FIFO1 is collecting key	
 		begin
 //		    if(ififo_key_input_vld)	    			
-//           	       ififo_key_wr_en_next = ~ififo_key_full;  
-		       ififo_key_wr_en_next = 1'b0;                
-            	    if (wready & (wr_addr == `FIFO_ADDR ))
+//            	       ififo_key_wr_en_next = ~ififo_key_full;                 
+		       ififo_key_wr_en_next = 1'b0;  
+          	    if (wready & (wr_addr == `FIFO_ADDR ))
 			begin
 			   if (!ififo_key_full)				//write the key into fifo_key
                     	   begin			   		
@@ -306,13 +367,13 @@ always @ (*)
 		             state_next = IFIFO_COLLECT_PLAINTEXT;  	//transfer the state to collect plaintext untill the fifo_key is full
 		         end	
 		     end
- 
+
  		IFIFO_COLLECT_PLAINTEXT:				//state: FIFO2 is collecting plaintext
 		begin	
 //		   if(ififo_plaintext_input_vld)	         
-//           	      ififo_plaintext_wr_en_next = ~ififo_plaintext_full; 
-		      ififo_plaintext_wr_en_next = 1'b0;           
-            	   if (wready & (wr_addr == `FIFO_ADDR ))
+//            	      ififo_plaintext_wr_en_next = ~ififo_plaintext_full;          
+		      ififo_plaintext_wr_en_next = 1'b0;  
+          	   if (wready & (wr_addr == `FIFO_ADDR ))
 			begin
                     	if (!ififo_plaintext_full)
 		            begin
@@ -340,16 +401,20 @@ always @ (*)
 		 begin
 		    if (ififo_key_rd_en & ififo_plaintext_rd_en)
 			go_bit  = 1'b1;		           		//go_bit to flag that key&plaintext are started to feed in aes core
+		//            if(go_bit)						//
+		//            begin							//
+		//                    aes_rst_next = 1'b1;			//hhhhh
+		//            end							//
 		    if (!ififo_key_empty |!ififo_plaintext_empty)
 		        begin
 		            ififo_key_rd_en_next = 1'b1;		//keep feeding the key&plaintext to aes core untill all data have been read
 		            ififo_plaintext_rd_en_next = 1'b1;
 		            if(go_bit)
 		            begin
-		                    aes_rst = 1'b1;			//release the reset signal to initilize the aes core
+		                    aes_rst_next = 1'b1;			//release the reset signal to initilize the aes core
 		            end
 			    else begin
-				    aes_rst = 1'b0;
+				    aes_rst_next = 1'b0;
 			    end
 		        end
 
@@ -372,12 +437,16 @@ always @ (*)
 	          WAIT_ENCRYPT: 					//state: wait the aes core do the encryption
 		  begin 
                    	go_bit  = 1'b1;	
+		//                if(go_bit)
+		//                begin
+		//                        aes_rst_next = 1'b1;		//hhh
+		 //               end
                      if (!aes_d_vld)					//keep the state in wait for ciphertext calculation if d_vld=0
                         begin
 		                state_next = WAIT_ENCRYPT; 
 		                if(go_bit)
 		                begin
-		                        aes_rst = 1'b1;
+		                        aes_rst_next = 1'b1;
 		                end	
                         end
                      else if (aes_d_vld)				//here to wait the aes_d_vld signal to indicate the available ciphertext 
@@ -398,7 +467,7 @@ always @ (*)
 		            state_next = CIPHER_TEXT_READY; 
 		            if(go_bit)
 		                begin
-		                        aes_rst = 1'b1;
+		                        aes_rst_next = 1'b1;
 		                end	
 		        end
 		   else if (ofifo_full)					//output_fifo_full indicates that 128-bit ciphertext has been collected 
@@ -412,33 +481,38 @@ always @ (*)
                 begin
                     done_bit = ofifo_full;
  //                 rdata[0] = done_bit;				//ciphertext valid, will use this signal to invoke other function in the future
-                    aes_rst = 0;					//aes module no longer needed, reset all signal
+                    //aes_rst = 0;					//aes module no longer needed, reset all signal
                     ofifo_rd_en_next = 1'b0;     		//enable read operation to read the ciphertext until output fifo is empty
-			if (rvalid && rready)
+		    arready_next = 1'b1;
+			//      rvalid_next = 1'b0;
+			if (rvalid & rready)
 			   begin
-			      rvalid = 0;
-			      rdata  = 0;
-			      rresp  = 0;
+			      rvalid_next = 1'b0;
+			      rdata_next  = 32'h0;
+			      rresp_next  = 1'b0;
 			   end
-			else if (arvalid_q)
+			else if (arvalid_q)		//?arvalid
 			   begin
-				rvalid = 1;
-				rresp  = 0;
+				//? $display("Hello!!!!")
+				//rvalid = 1;
+				rvalid_next = 1'b1;
+				rresp_next  = 0;
 				if(araddr_q == `FIFO_ADDR) begin
+			//			rvalid_next = 1'b1;
 						ofifo_rd_en_next = 1'b1;
-				        	rdata = ofifo_dout;
+				        	rdata_next = ofifo_dout;
+						arready_next = 1'b0;
 				end
 				    else if (ofifo_empty) begin
 				        ofifo_rd_en_next = 1'b0;
+	                        	arready_next = 1'b0;
 				    end
 			   end
-                    else if (ofifo_empty) begin
-                        ofifo_rd_en_next = 1'b0;
-                    end
                 end
+
 		endcase
 	end
- 
+
 
 //---------------------------------------------
 //sequential logic
@@ -448,7 +522,7 @@ always @ (posedge clk_main_a0)
 	if (!rst_main_n_sync)						//low sensitive reset
 	     begin
 		     state <= IFIFO_COLLECT_KEY;			//reset all signals
-	     	 ififo_key_wr_en            <= 	1'b0;
+	     	     ififo_key_wr_en            <= 	1'b0;
 		     ififo_key_rd_en            <= 	1'b0;     
 		     ififo_key_input_vld        <= 	1'b0;  
 		     ififo_plaintext_wr_en      <= 	1'b0;
@@ -460,6 +534,10 @@ always @ (posedge clk_main_a0)
 		     done_bit                   <= 	1'b0;
 		     aes_rst                    <= 	1'b0;                 
 		     rvalid                     <= 	1'b0;  
+		     arready			<= 		1'b0;
+		     rresp 				<= 		1'b0;
+		     rdata				<= 32'h0;
+
 	     end
 	else begin							//update signals at posedge clock
 		     state 			            <=      state_next;	
@@ -473,10 +551,13 @@ always @ (posedge clk_main_a0)
 		     ififo_plaintext_input_vld  <=   	ififo_plaintext_input_vld_next;
 		     ofifo_wr_en                <=   	ofifo_wr_en_next;
 		     ofifo_rd_en                <=   	ofifo_rd_en_next;
-           	 go_bit                     <=   	go_bit_next;
+           	     go_bit                     <=   	go_bit_next;
 		     done_bit                   <=   	done_bit_next;
 		     aes_rst                    <=   	aes_rst_next;
 		     rvalid                     <=   	rvalid_next;		
+		     arready 			<= 	arready_next;
+		     rresp				<=   rresp_next;
+		     rdata				<=	rdata_next;
 		     hello_world_q_internal     <=   	hello_world_q_internal_next;	
 	      end
 	end
