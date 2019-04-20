@@ -40,8 +40,9 @@ file copy -force $CL_DIR/design/cl_id_defines.vh                      $TARGET_DI
 #file copy -force $CL_DIR/design/adder.v              	              $TARGET_DIR  
 file copy -force $CL_DIR/design/cl_fifo_defines.vh                    $TARGET_DIR
 file copy -force $CL_DIR/design/cl_fifo.sv                            $TARGET_DIR 
-file copy -force $CL_DIR/design/write_to_library_fifo.v                       $TARGET_DIR 
-#file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR  
+#file copy -force $CL_DIR/design/write_to_library_fifo.v               $TARGET_DIR
+file copy -force $CL_DIR/design/write_to_local_fifo.v                 $TARGET_DIR   
+file copy -force $CL_DIR/design/fifo_shanquan.v                       $TARGET_DIR  
 file copy -force $CL_DIR/design/aes_top.v	                      $TARGET_DIR
 file copy -force $CL_DIR/design/aes_data_path.v                       $TARGET_DIR
 file copy -force $CL_DIR/design/byte_permutation_unit.v               $TARGET_DIR

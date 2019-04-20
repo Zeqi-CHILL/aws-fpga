@@ -24,9 +24,9 @@ CFLAGS = -DCONFIG_LOGLEVEL=4 -g -Wall $(INCLUDES)
 
 LDLIBS = -lfpga_mgmt -lrt -lpthread
 
-SRC = ${SDK_DIR}/userspace/utils/sh_dpi_tasks.c test_fifo.c
+SRC = ${SDK_DIR}/userspace/utils/sh_dpi_tasks.c test_aes_library_fifo.c
 OBJ = $(SRC:.c=.o)
-BIN = test_fifo
+BIN = test_aes_library_fifo
 
 all: $(BIN) check_env
 

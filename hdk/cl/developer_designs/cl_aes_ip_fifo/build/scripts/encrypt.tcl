@@ -50,6 +50,11 @@ file copy -force $CL_DIR/design/mixcolumn.v                  	      $TARGET_DIR
 file copy -force $CL_DIR/design/mux.v                                 $TARGET_DIR
 file copy -force $CL_DIR/design/parallel_serial_converter.v           $TARGET_DIR
 file copy -force $CL_DIR/design/sbox_case_4.v  	                      $TARGET_DIR
+#file copy -r -force $CL_DIR/design/xpm_fifo_sync/                          $TARGET_DIR
+#foreach f [glob -directory $CL_DIR/design/xpm_fifo_sync/ -nocomplain *] {
+#    file copy -force $f $TARGET_DIR
+#}
+
 file copy -force $CL_DIR/../common/design/cl_common_defines.vh        $TARGET_DIR 
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR

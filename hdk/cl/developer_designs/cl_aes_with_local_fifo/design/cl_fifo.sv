@@ -268,7 +268,7 @@ always_ff @(posedge clk_main_a0)
 //-------------------------------------------------
 // When read it, returns the byte-flipped value.
 
-write_to_library_fifo write_to_library_fifo_inst(
+write_to_local_fifo write_to_local_fifo_inst(
   .clk_main_a0 (clk_main_a0),
   .rst_main_n_sync (rst_main_n_sync),
   .wr_addr (wr_addr),

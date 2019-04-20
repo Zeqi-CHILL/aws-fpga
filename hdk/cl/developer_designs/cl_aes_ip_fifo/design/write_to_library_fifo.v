@@ -172,8 +172,9 @@ parameter FIFO_DEPTH = 16				//For each fifo, we need 16 sets of 8-bit (16*8=128
 	);
 */
 
+
 //IP 
-xpm_fifo_sync key_xpm_fifo_sync_inst (
+ip_fifo_snyc_xcvu9p_flgb2104_2_i key_fifo_sync_inst (
   .clk(clk_main_a0),                  // input wire clk
   .srst(~rst_main_n_sync),                // input wire srst
   .din(ififo_key_din),                  // input wire [7 : 0] din
@@ -241,7 +242,7 @@ FIFO_Shanquan fifo_key_inst(
 */
 
 //IP 
-xpm_fifo_sync plaintext_xpm_fifo_sync_inst (
+ip_fifo_snyc_xcvu9p_flgb2104_2_i plaintext_fifo_sync_inst (
   .clk(clk_main_a0),                  // input wire clk
   .srst(~rst_main_n_sync),                // input wire srst
   .din(ififo_plaintext_din),                  // input wire [7 : 0] din
@@ -307,7 +308,7 @@ FIFO_Shanquan fifo_plaintext_inst(
 */
 
 //IP 
-xpm_fifo_sync output_xpm_fifo_sync_inst (
+ip_fifo_snyc_xcvu9p_flgb2104_2_i output_fifo_sync_inst (
   .clk(clk_main_a0),                  // input wire clk
   .srst(~rst_main_n_sync),                // input wire srst
   .din(ofifo_din),                  // input wire [7 : 0] din

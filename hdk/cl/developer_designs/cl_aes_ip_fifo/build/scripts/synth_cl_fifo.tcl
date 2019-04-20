@@ -41,8 +41,15 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 # Reading the .sv and .v files, as proper designs would not require
 # reading .v, .vh, nor .inc files
 
-read_verilog -sv [glob $ENC_SRC_DIR/*.?v]
-read_verilog -sv [glob $ENC_SRC_DIR/*.v]
+#read_verilog -sv [glob $ENC_SRC_DIR/*.?v]
+#read_verilog -sv [glob $ENC_SRC_DIR/*.v]
+read_verilog -sv [glob $CL_DIR/design/*.?v]
+read_verilog -sv [glob $CL_DIR/design/*.v]
+
+
+#user_ip
+#read_ip [ list $CL_DIR/ip/xpm_fifo_sync/xpm_fifo_sync.xci]
+
 
 #---- End of section replaced by User ----
 
@@ -73,8 +80,14 @@ read_ip [ list \
   $HDK_SHELL_DESIGN_DIR/ip/ila_0/ila_0.xci\
   $HDK_SHELL_DESIGN_DIR/ip/cl_debug_bridge/cl_debug_bridge.xci \
   $HDK_SHELL_DESIGN_DIR/ip/ila_vio_counter/ila_vio_counter.xci \
-  $HDK_SHELL_DESIGN_DIR/ip/vio_0/vio_0.xci
+  $HDK_SHELL_DESIGN_DIR/ip/vio_0/vio_0.xci 
 ]
+
+ 
+#add_files -fileset sources_1 $CL_DIR/ip/ip_fifo_snyc_xcvu9p_flgb2104_2_i/ip_fifo_snyc_xcvu9p_flgb2104_2_i.xci
+add_files -fileset sources_1 $CL_DIR/ip/ip_fifo_snyc_xcvu9p_flgb2104_2_i.xci
+#generate_target -verbose all [get_files $CL_DIR/ip/ip_fifo_snyc_xcvu9p_flgb2104_2_i/ip_fifo_snyc_xcvu9p_flgb2104_2_i.xci]
+generate_target -verbose all [get_files $CL_DIR/ip/ip_fifo_snyc_xcvu9p_flgb2104_2_i.xci]
 
 # Additional IP's that might be needed if using the DDR
 #read_bd [ list \

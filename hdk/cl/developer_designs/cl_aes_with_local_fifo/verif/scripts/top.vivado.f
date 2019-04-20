@@ -67,7 +67,9 @@ ${CL_ROOT}/design/cl_id_defines.vh
 #${CL_ROOT}/design/write_to_adder.v
 #${CL_ROOT}/design/write_to_aes.v
 #${CL_ROOT}/design/adder.v
-${CL_ROOT}/design/write_to_library_fifo.v
+#${CL_ROOT}/design/write_to_library_fifo.v
+${CL_ROOT}/design/write_to_local_fifo.v
+${CL_ROOT}/design/fifo_shanquan.v
 ${CL_ROOT}/design/aes_top.v
 ${CL_ROOT}/design/aes_data_path.v
 ${CL_ROOT}/design/byte_permutation_unit.v

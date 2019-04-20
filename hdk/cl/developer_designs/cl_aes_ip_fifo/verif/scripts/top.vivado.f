@@ -40,7 +40,12 @@
 -include ${HDK_SHELL_DESIGN_DIR}/ip/axi_register_slice_light/hdl
 
 ${CL_ROOT}/../common/design/cl_common_defines.vh
-${CL_ROOT}/design/cl_hello_world_defines.vh
+#${CL_ROOT}/ip/synth/ip_fifo_snyc_xcvu9p_flgb2104_2_i.vhd
+#${CL_ROOT}/ip/sim/ip_fifo_snyc_xcvu9p_flgb2104_2_i.v
+#${CL_ROOT}/ip/hdl/blk_mem_gen_v8_4_vhsyn_rfs.vhd
+#${CL_ROOT}/ip/hdl/fifo_generator_v13_2_rfs.v
+#${CL_ROOT}/ip/hdl/fifo_generator_v13_2_rfs.vhd
+#${CL_ROOT}/ip/hdl/fifo_generator_v13_2_vhsyn_rfs.vhd
 ${HDK_SHELL_DESIGN_DIR}/ip/ila_vio_counter/sim/ila_vio_counter.v
 ${HDK_SHELL_DESIGN_DIR}/ip/ila_0/sim/ila_0.v
 ${HDK_SHELL_DESIGN_DIR}/ip/cl_debug_bridge/bd_0/sim/bd_a493.v
@@ -76,7 +81,8 @@ ${CL_ROOT}/design/mixcolumn.v
 ${CL_ROOT}/design/mux.v
 ${CL_ROOT}/design/parallel_serial_converter.v
 ${CL_ROOT}/design/sbox_case_4.v
-
+#${CL_ROOT}/design/xpm_fifo_sync/xpm_fifo_sync_sim_netlist.v
+${CL_ROOT}/ip/ip_fifo_snyc_xcvu9p_flgb2104_2_i_sim_netlist.v
 
 
 
